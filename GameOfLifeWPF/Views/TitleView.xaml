@@ -7,6 +7,14 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="450">
     <Grid>
+
+        <Grid.Resources>
+            <Style TargetType="Button">
+                <Setter Property="MaxWidth" Value="300"/>
+                <Setter Property="MaxHeight" Value="80"/>
+            </Style>
+        </Grid.Resources>
+        
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="10"/>
             <ColumnDefinition Width="*"/>
@@ -29,7 +37,7 @@
 
         <Label Content="Game Of Life" HorizontalAlignment="Center" FontWeight="Bold" FontSize="20px" Grid.Row="1" Grid.Column="1"/>
         <Button Content="New Game" Grid.Column="1" Grid.Row="4" Click="NewGameButton_Click"/>
-        <Button Content="Load Game" Grid.Column="1" Grid.Row="6"/>
-        <Button Content="Exit" Grid.Column="1" Grid.Row="8"/>
+        <Button Content="Load Game" Grid.Column="1" Grid.Row="6" Click="LoadGameButton_Click"/>
+        <Button Content="Exit" Grid.Column="1" Grid.Row="8" Click="ExitButton_Click"/>
     </Grid>
 </UserControl>

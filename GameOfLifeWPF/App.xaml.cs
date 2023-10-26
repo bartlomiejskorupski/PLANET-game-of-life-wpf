@@ -5,6 +5,7 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace GameOfLifeWPF
 {
@@ -13,5 +14,11 @@ namespace GameOfLifeWPF
     /// </summary>
     public partial class App : Application
     {
+        public static void Navigate(UserControl caller, UserControl navigateTo)
+        {
+            var window = Window.GetWindow(caller);
+            var mainContent = (ContentControl)window.FindName("MainContent");
+            mainContent.Content = navigateTo;
+        }
     }
 }

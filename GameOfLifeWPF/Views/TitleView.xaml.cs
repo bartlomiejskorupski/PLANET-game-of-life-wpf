@@ -27,9 +27,24 @@ namespace GameOfLifeWPF.Views
 
         private void NewGameButton_Click(object sender, RoutedEventArgs e)
         {
-            var window = Window.GetWindow(this);
-            var mainContent = (ContentControl)window.FindName("MainContent");
-            mainContent.Content = new GameView();
+            App.Navigate(this, new CreateGameView());
+        }
+
+        private void ExitButton_Click(object sender, RoutedEventArgs e)
+        {
+            var result = MessageBox.Show(
+                "Are you sure you want to exit?",
+                "Exit", 
+                MessageBoxButton.YesNo, 
+                MessageBoxImage.Question
+            );
+            if(result == MessageBoxResult.Yes)
+                Window.GetWindow(this).Close();
+        }
+
+        private void LoadGameButton_Click(object sender, RoutedEventArgs e)
+        {
+            App.Navigate(this, new LoadGameView());
         }
     }
 }

@@ -5,6 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GameOfLifeWPF"
         mc:Ignorable="d"
+        MinWidth="300"
+        MinHeight="300"
         Title="Game Of Life" Height="450" Width="450">
     <Grid>
         <ContentControl x:Name="MainContent"/>
