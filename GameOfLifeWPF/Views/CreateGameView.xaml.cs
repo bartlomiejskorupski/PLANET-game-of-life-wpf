@@ -27,7 +27,13 @@ namespace GameOfLifeWPF.Views
 
         private void CreateButton_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show($"Width: {WidthTB.Text} Height: {HeightTB.Text}", "Result");
+            if(!Int32.TryParse(WidthTB.Text, out int width) || !Int32.TryParse(HeightTB.Text, out int height))
+            {
+                MessageBox.Show("Error parsing width and height", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            App.Navigate(this, new GameView());
         }
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)

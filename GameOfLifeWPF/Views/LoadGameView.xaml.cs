@@ -21,9 +21,12 @@ namespace GameOfLifeWPF.Views
     /// </summary>
     public partial class LoadGameView : UserControl
     {
+        private string _chosenFilePath;
+
         public LoadGameView()
         {
             InitializeComponent();
+            _chosenFilePath = "";
         }
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
@@ -34,13 +37,26 @@ namespace GameOfLifeWPF.Views
         private void ChooseFile_Click(object sender, RoutedEventArgs e)
         {
             var dialog = new OpenFileDialog();
-            dialog.InitialDirectory = AppDomain.CurrentDomain.BaseDirectory
+            dialog.InitialDirectory = AppDomain.CurrentDomain.BaseDirectory;
 ;
             if (dialog.ShowDialog() == false)
             {
+                _chosenFilePath = "";
+                ChosenFileLabel.Text = "No file chosen";
+                ContinueButton.IsEnabled = false;
                 return;
             }
-            MessageBox.Show($"{dialog.FileName}");
+
+            _chosenFilePath = dialog.FileName;
+            var fileName = System.IO.Path.GetFileName(_chosenFilePath);
+
+            ChosenFileLabel.Text = fileName;
+            ContinueButton.IsEnabled = true;
+        }
+
+        private void ContinueButton_Click(object sender, RoutedEventArgs e)
+        {
+            App.Navigate(this, new GameView());
         }
     }
 }
