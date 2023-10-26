@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GameOfLifeWPF.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -34,7 +35,7 @@ namespace GameOfLifeWPF.Views
                 return;
             }
 
-            App.Navigate(this, new GameView());
+            App.Navigate(this, new GameView(new NewBoardFactory(width, height)));
         }
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)

@@ -1,4 +1,5 @@
-﻿using Microsoft.Win32;
+﻿using GameOfLifeWPF.Model;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -57,7 +58,7 @@ namespace GameOfLifeWPF.Views
 
         private void ContinueButton_Click(object sender, RoutedEventArgs e)
         {
-            App.Navigate(this, new GameView());
+            App.Navigate(this, new GameView(new LoadBoardFactory(_chosenFilePath)));
         }
     }
 }
