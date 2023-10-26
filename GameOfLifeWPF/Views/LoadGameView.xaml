@@ -35,10 +35,10 @@
         <Label Content="Load Game" HorizontalAlignment="Center" FontWeight="Bold" FontSize="20px" Grid.Column="1" Grid.Row="1"/>
 
         <TextBlock MaxWidth="300" HorizontalAlignment="Center" TextWrapping="Wrap" x:Name="ChosenFileLabel" Text="No file chosen" Grid.Column="1" Grid.Row="2" Foreground="#FF292929"/>
-        <Button Content="Choose file" Grid.Column="1" Grid.Row="3" Click="ChooseFile_Click"/>
+        <Button IsDefault="True" Content="Choose file" Grid.Column="1" Grid.Row="3" Click="ChooseFile_Click"/>
 
         <StackPanel Grid.Column="1" Grid.Row="5" Orientation="Horizontal" HorizontalAlignment="Center">
-            <Button Content="Cancel" Margin="0, 0, 10, 0" Click="CancelButton_Click"/>
+            <Button IsCancel="True" Content="Cancel" Margin="0, 0, 10, 0" Click="CancelButton_Click"/>
             <Button x:Name="ContinueButton" Content="Continue" Margin="10, 0, 0, 0" IsEnabled="False" Click="ContinueButton_Click"/>
         </StackPanel>
     </Grid>

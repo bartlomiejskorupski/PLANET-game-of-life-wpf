@@ -52,6 +52,7 @@ namespace GameOfLifeWPF.Views
 
             ChosenFileLabel.Text = fileName;
             ContinueButton.IsEnabled = true;
+            ContinueButton.Focus();
         }
 
         private void ContinueButton_Click(object sender, RoutedEventArgs e)

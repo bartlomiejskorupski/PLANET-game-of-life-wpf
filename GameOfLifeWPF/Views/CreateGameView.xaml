@@ -53,11 +53,11 @@
             </Grid.RowDefinitions>
             
             <Label Content="Width:" Grid.Column="0" Grid.Row="0"/>
-            <TextBox x:Name="WidthTB" Text="20" Grid.Column="2" Grid.Row="0" VerticalAlignment="Top"/>
+            <TextBox MaxLength="2" PreviewTextInput="NumberValidationTextBox" x:Name="WidthTB" Text="20" Grid.Column="2" Grid.Row="0" VerticalAlignment="Top"/>
             <Label Content="Height:" Grid.Column="0" Grid.Row="2"/>
-            <TextBox x:Name="HeightTB" Text="20" Grid.Column="2" Grid.Row="2" VerticalAlignment="Top"/>
-            <Button Content="Cancel" Click="CancelButton_Click" Grid.Column="0" Grid.Row="4"/>
-            <Button Content="Create" Click="CreateButton_Click" Grid.Column="2" Grid.Row="4"/>
+            <TextBox MaxLength="2" PreviewTextInput="NumberValidationTextBox" x:Name="HeightTB" Text="20" Grid.Column="2" Grid.Row="2" VerticalAlignment="Top"/>
+            <Button IsCancel="True" Content="Cancel" Click="CancelButton_Click" Grid.Column="0" Grid.Row="4"/>
+            <Button IsDefault="True" Content="Create" Click="CreateButton_Click" Grid.Column="2" Grid.Row="4"/>
         </Grid>
 
     </Grid>
