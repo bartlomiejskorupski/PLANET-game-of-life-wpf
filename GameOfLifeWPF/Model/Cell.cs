@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,6 +14,6 @@ namespace GameOfLifeWPF.Model
         {
             IsAlive = isAlive;
         }
-        public Cell() : this(false) { }
+        public Cell(int x, int y) : this(false) { }
     }
 }

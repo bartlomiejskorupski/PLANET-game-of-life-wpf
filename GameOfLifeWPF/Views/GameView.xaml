@@ -15,10 +15,14 @@
 
         <Grid.RowDefinitions>
             <RowDefinition Height="10"/>
+            <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="10"/>
         </Grid.RowDefinitions>
 
-        <TextBlock Text="Game goes here" Grid.Column="1" Grid.Row="1"/>
+        <Button Content="Debug" Grid.Column="1" Grid.Row="1" Click="DebugButton_Click"/>
+
+        <Canvas HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="GameCanvas" Grid.Column="1" Grid.Row="2" Loaded="GameCanvas_Loaded" SizeChanged="GameCanvas_SizeChanged"/>
+
     </Grid>
 </UserControl>
