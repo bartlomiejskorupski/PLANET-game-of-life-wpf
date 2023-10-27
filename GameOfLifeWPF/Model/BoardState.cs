@@ -8,22 +8,42 @@ namespace GameOfLifeWPF.Model
 {
     public class BoardState
     {
-        public Cell[,] Cells {  get; private set; }
+        public Cell[,] Cells { get; private set; }
         public int Width { get; }
         public int Height { get; }
-        public BoardState(int width, int height)
+        public int Generation { get; private set; }
+        public int Alive
+        {
+            get
+            {
+                int aliveSum = 0;
+                foreach(var cell in Cells)
+                {
+                    aliveSum = cell.IsAlive ? aliveSum + 1 : aliveSum;
+                }
+                return aliveSum;
+            }
+        }
+        public int Died { get; private set; }
+        public int Born { get; private set; }
+        public BoardState(int width, int height, int generation)
         {
             Width = width;
             Height = height;
+            Generation = generation;
+            Died = 0;
+            Born = 0;
             Cells = new Cell[width, height];
-            foreach (var x in Enumerable.Range(0, Width))
+            for (int x = 0; x < Width; x++)
             {
-                foreach (var y in Enumerable.Range(0, Height))
+                for (int y = 0; y < Height; y++)
                 {
                     Cells[x, y] = new Cell(false);
                 }
             }
         }
+
+        public BoardState(int width, int height) : this(width, height, 0) { }
 
         public void ToggleCellState(int x, int y)
         {
@@ -35,13 +55,67 @@ namespace GameOfLifeWPF.Model
             Cells[x, y].IsAlive = state;
         }
 
-        public BoardState CalculateNextState()
+        public BoardState CreateNextBoardState()
         {
-            var nextState = new BoardState(Width, Height);
+            var nextState = new BoardState(Width, Height, Generation + 1);
+            nextState.Born = Born;
+            nextState.Died = Died;
 
-            throw new NotImplementedException();
+            for (int x = 0; x < Width; x++)
+            {
+                for(int y = 0; y < Height; y++)
+                {
+                    var nextCell = nextState.Cells[x, y];
+                    ChangeCellState(nextCell, x, y);
+                    if (nextCell.IsAlive && !Cells[x, y].IsAlive)
+                        nextState.Born++;
+                    if (!nextCell.IsAlive && Cells[x, y].IsAlive)
+                        nextState.Died++;
+                }
+            }
 
             return nextState;
+        }
+
+        private bool ChangeCellState(Cell nextCell, int x, int y)
+        {
+            int aliveNeighbors = 0;
+            int deadNeighbors = 0;
+
+            for (int offX = -1; offX <= 1; offX++)
+            {
+                for(int offY = -1; offY <= 1; offY++)
+                {
+                    if (offX == 0 && offY == 0)
+                        continue;
+
+                    if (x + offX < 0 || x + offX >= Width || y + offY < 0 || y + offY >= Height)
+                        continue;
+
+                    if(Cells[x + offX, y + offY].IsAlive)
+                        aliveNeighbors++;
+                    else
+                        deadNeighbors++;
+                }
+            }
+
+            nextCell.IsAlive = false;
+
+            Cell currentCell = Cells[x, y];
+            if (currentCell.IsAlive)
+            {
+                if (aliveNeighbors == 2 || aliveNeighbors == 3)
+                {
+                    nextCell.IsAlive = true;
+                }
+            }
+            else
+            {
+                if(aliveNeighbors == 3)
+                    nextCell.IsAlive = true;
+            }
+
+            return nextCell.IsAlive;
         }
     }
 }
