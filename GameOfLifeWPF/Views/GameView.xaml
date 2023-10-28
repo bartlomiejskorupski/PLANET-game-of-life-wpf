@@ -83,8 +83,14 @@
             <TextBlock x:Name="BornTB" Text="{Binding BornText}" Grid.Column="6" Grid.Row="1"/>
 
         </Grid>
-            
-        <Canvas HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="GameCanvas" Grid.Column="1" Grid.Row="3" Loaded="GameCanvas_Loaded" SizeChanged="GameCanvas_SizeChanged"/>
+
+        <ContentControl x:Name="CanvasContainer"
+                        SizeChanged="CanvasContainer_SizeChanged"
+                        Grid.Column="1" Grid.Row="3">
+            <Canvas HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    x:Name="GameCanvas" Loaded="GameCanvas_Loaded"/>
+        </ContentControl>
 
         <Grid Grid.Column="1" Grid.Row="5">
             <Grid.ColumnDefinitions>
@@ -111,7 +117,7 @@
 
             <Button x:Name="PreviousButton" Content="&lt;" Grid.Column="6" Click="PreviousButton_Click"/>
             <Button x:Name="NextButton" Content="&gt;" Grid.Column="8" Click="NextButton_Click"/>
-            <ToggleButton Content="Auto" Grid.Column="8" Grid.Row="2"/>
+            <ToggleButton x:Name="AutoToggleButton" Content="Auto" Grid.Column="8" Grid.Row="2" Checked="AutoToggleButton_Checked" Unchecked="AutoToggleButton_Unchecked"/>
         </Grid>
     </Grid>
 </UserControl>
