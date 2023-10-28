@@ -12,7 +12,12 @@ namespace GameOfLifeWPF.Model
         public IList<BoardState> States { get; set; }
         public int Width { get; }
         public int Height { get; }
-        public int CurrentStateId { get; set; }
+        public int CurrentStateId => States.Count - 1;
+        public BoardState CurrentState => States[CurrentStateId];
+        public string GenerationText => CurrentState.Generation.ToString();
+        public string AliveText => CurrentState.Alive.ToString();
+        public string DiedText => CurrentState.Died.ToString();
+        public string BornText => CurrentState.Born.ToString();
         public Board(int width, int height)
         {
             Width = width;
@@ -21,7 +26,21 @@ namespace GameOfLifeWPF.Model
             {
                 new BoardState(Width, Height)
             };
-            CurrentStateId = 0;
+        }
+
+        public void NextGeneration()
+        {
+            var nextState = CurrentState.CreateNextBoardState();
+            States.Add(nextState);
+        }
+
+        public void StepBack()
+        {
+            if(CurrentStateId <= 0)
+            {
+                return;
+            }
+            States.RemoveAt(CurrentStateId);
         }
 
     }

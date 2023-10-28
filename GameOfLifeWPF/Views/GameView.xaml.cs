@@ -38,7 +38,7 @@ namespace GameOfLifeWPF.Views
             double cellWidth = GameCanvas.ActualWidth / Board.Width;
             double cellHeight = GameCanvas.ActualHeight / Board.Height;
 
-            var currentState = Board.States[Board.CurrentStateId];
+            var currentState = Board.CurrentState;
             for(int x = 0; x < currentState.Width; x++)
             {
                 for(int y = 0; y < currentState.Height; y++)
@@ -70,15 +70,17 @@ namespace GameOfLifeWPF.Views
             var cellPos = (Point)rect.DataContext;
             var x = (int)cellPos.X;
             var y = (int)cellPos.Y;
-            var currentState = Board.States[Board.CurrentStateId];
-            currentState.ToggleCellState(x, y);
-            var cell = currentState.Cells[x, y];
+
+            Board.CurrentState.ToggleCellState(x, y);
+            var cell = Board.CurrentState.Cells[x, y];
+            AliveTB.Text = Board.AliveText;
+
             rect.Fill = new SolidColorBrush(cell.IsAlive ? Colors.White : Colors.Gray);
         }
 
         private void DebugButton_Click(object sender, RoutedEventArgs e)
         {
-            UpdateCanvas();
+            
         }
 
         private void GameCanvas_Loaded(object sender, RoutedEventArgs e)
@@ -89,6 +91,28 @@ namespace GameOfLifeWPF.Views
         private void GameCanvas_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             UpdateCanvas();
+        }
+
+        private void NextButton_Click(object sender, RoutedEventArgs e)
+        {
+            Board.NextGeneration();
+            UpdateTopPanel();
+            UpdateCanvas();
+        }
+
+        private void PreviousButton_Click(object sender, RoutedEventArgs e)
+        {
+            Board.StepBack();
+            UpdateTopPanel();
+            UpdateCanvas();
+        }
+
+        private void UpdateTopPanel()
+        {
+            GenerationTB.Text = Board.GenerationText;
+            AliveTB.Text = Board.AliveText;
+            BornTB.Text = Board.BornText;
+            DiedTB.Text = Board.DiedText;
         }
     }
 }
