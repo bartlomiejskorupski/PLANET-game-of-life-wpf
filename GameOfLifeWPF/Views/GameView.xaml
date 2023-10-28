@@ -118,6 +118,7 @@
             <Button x:Name="PreviousButton" Content="&lt;" Grid.Column="6" Click="PreviousButton_Click"/>
             <Button x:Name="NextButton" Content="&gt;" Grid.Column="8" Click="NextButton_Click"/>
             <ToggleButton x:Name="AutoToggleButton" Content="Auto" Grid.Column="8" Grid.Row="2" Checked="AutoToggleButton_Checked" Unchecked="AutoToggleButton_Unchecked"/>
+            <ToggleButton x:Name="GridButton" Content="Show Grid" Grid.Column="6" Grid.Row="2" IsChecked="True" Unchecked="GridButton_Unchecked" Checked="GridButton_Checked"/>
         </Grid>
     </Grid>
 </UserControl>

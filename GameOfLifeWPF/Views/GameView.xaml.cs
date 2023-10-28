@@ -43,6 +43,7 @@ namespace GameOfLifeWPF.Views
         private void CreateCanvas()
         {
             GameCanvas.Children.Clear();
+            GameCanvas.Background = new SolidColorBrush(Colors.Gray);
 
             CalculateCanvasDimensions(out double cellSize, out double offsetLeft, out double offsetTop);
 
@@ -64,7 +65,7 @@ namespace GameOfLifeWPF.Views
                 Width = cellSize,
                 Height = cellSize,
                 Stroke = new SolidColorBrush(Colors.Black),
-                StrokeThickness = 1,
+                StrokeThickness = 1.0,
                 Fill = new SolidColorBrush(cellState ? Colors.White : Colors.Gray)
             };
             rect.DataContext = new RectCellData(x, y, cellState);
@@ -212,6 +213,22 @@ namespace GameOfLifeWPF.Views
         {
             _resizeTimer.Stop();
             UpdateCanvas();
+        }
+
+        private void GridButton_Unchecked(object sender, RoutedEventArgs e)
+        {
+            foreach(Rectangle rect in GameCanvas.Children)
+            {
+                rect.StrokeThickness = 0.0;
+            }
+        }
+
+        private void GridButton_Checked(object sender, RoutedEventArgs e)
+        {
+            foreach (Rectangle rect in GameCanvas.Children)
+            {
+                rect.StrokeThickness = 1.0;
+            }
         }
     }
 }
