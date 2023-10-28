@@ -114,5 +114,16 @@ namespace GameOfLifeWPF.Views
             BornTB.Text = Board.BornText;
             DiedTB.Text = Board.DiedText;
         }
+
+        private void ExitButton_Click(object sender, RoutedEventArgs e)
+        {
+            var result = MessageBox.Show(
+                "Are you sure you want to exit?\nUnsaved changes will be discarded.",
+                "Exit", MessageBoxButton.YesNo, MessageBoxImage.Warning, MessageBoxResult.No
+            );
+            if (result != MessageBoxResult.Yes)
+                return;
+            App.Navigate(this, new TitleView());
+        }
     }
 }
