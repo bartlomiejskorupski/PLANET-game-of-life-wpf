@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:GameOfLifeWPF.Views"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="450">
-    <Grid>
+    <Grid x:Name="GameGrid">
         <Grid.Resources>
             <Style TargetType="Button">
                 <Setter Property="MinHeight" Value="40"/>
@@ -116,6 +116,7 @@
             <Button x:Name="SaveButton"  Content="Save" Grid.Column="0" Click="SaveButton_Click"/>
 
             <Button Content="Debug" Grid.Column="2" Grid.Row="2" Click="DebugButton_Click"/>
+            <Button Content="Screenshot" Grid.Column="2" Grid.Row="0" Click="ScreenshotButton_Click"/>
 
             <Button x:Name="PreviousButton" Content="&lt;" Grid.Column="6" Click="PreviousButton_Click"/>
             <Button x:Name="NextButton" Content="&gt;" Grid.Column="8" Click="NextButton_Click"/>

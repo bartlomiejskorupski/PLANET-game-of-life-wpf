@@ -1,5 +1,6 @@
 ﻿using GameOfLifeWPF.Model;
 using GameOfLifeWPF.Model.BoardFactory;
+using GameOfLifeWPF.Model.ScreenCapture;
 using GameOfLifeWPF.Model.Serialization;
 using Microsoft.Win32;
 using System;
@@ -239,12 +240,27 @@ namespace GameOfLifeWPF.Views
             var dialog = new SaveFileDialog();
             dialog.Filter = "Game of life save file (.gol)|*.gol";
             dialog.FileName = "GOL_" + DateTime.Now.ToString("yyyyMMdd_HHmmss") + ".gol";
-            bool success = (bool)dialog.ShowDialog();
 
-            if (!success)
+            if (dialog.ShowDialog() == false)
                 return;
 
             BoardSerializer.Serialize(Board, dialog.FileName);
         }
+
+        private void ScreenshotButton_Click(object sender, RoutedEventArgs e)
+        {
+            SaveFileDialog dialog = new SaveFileDialog();
+            dialog.Filter = "JPEG image (.jpeg)|*.jpeg";
+            dialog.FileName = "GOL_" + DateTime.Now.ToString("yyyyMMdd_HHmmss") + ".jpeg";
+
+            if (dialog.ShowDialog() == false)
+                return;
+
+            Screenshot.SaveUIElementToJpeg(GameGrid, dialog.FileName);
+
+            Process.Start("rundll32.exe", "shell32.dll,OpenAs_RunDLL " + dialog.FileName);
+        }
+
+
     }
 }
