@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,10 +9,12 @@ namespace GameOfLifeWPF.Model
 {
     public class BoardState
     {
-        public Cell[,] Cells { get; private set; }
-        public int Width { get; }
-        public int Height { get; }
-        public int Generation { get; private set; }
+        public Cell[,] Cells { get; set; }
+        public int Width { get; set; }
+        public int Height { get; set; }
+        
+        public int Generation { get; set; }
+        [JsonIgnore]
         public int Alive
         {
             get
@@ -24,8 +27,12 @@ namespace GameOfLifeWPF.Model
                 return aliveSum;
             }
         }
-        public int Died { get; private set; }
-        public int Born { get; private set; }
+        public int Died { get; set; }
+        public int Born { get; set; }
+        public BoardState() 
+        {
+            
+        }
         public BoardState(int width, int height, int generation)
         {
             Width = width;
@@ -76,7 +83,6 @@ namespace GameOfLifeWPF.Model
 
             return nextState;
         }
-
         private bool ChangeCellState(Cell nextCell, int x, int y)
         {
             int aliveNeighbors = 0;

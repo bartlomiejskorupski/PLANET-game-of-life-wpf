@@ -1,4 +1,6 @@
 ﻿using GameOfLifeWPF.Model;
+using GameOfLifeWPF.Model.Serialization;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -229,6 +231,19 @@ namespace GameOfLifeWPF.Views
             {
                 rect.StrokeThickness = 1.0;
             }
+        }
+
+        private void SaveButton_Click(object sender, RoutedEventArgs e)
+        {
+            var dialog = new SaveFileDialog();
+            dialog.Filter = "Json files (*.json)|*.json";
+            dialog.FileName = "GOL_" + DateTime.Now.ToString("yyyyMMdd_HHmmss") + ".json";
+            bool success = (bool)dialog.ShowDialog();
+
+            if (!success)
+                return;
+
+            BoardSerializer.Serialize(Board, dialog.FileName);
         }
     }
 }

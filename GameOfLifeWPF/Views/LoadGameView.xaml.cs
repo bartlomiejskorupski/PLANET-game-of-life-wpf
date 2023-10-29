@@ -38,8 +38,8 @@ namespace GameOfLifeWPF.Views
         private void ChooseFile_Click(object sender, RoutedEventArgs e)
         {
             var dialog = new OpenFileDialog();
-            dialog.InitialDirectory = AppDomain.CurrentDomain.BaseDirectory;
-;
+            dialog.Filter = "Json files (.json)|*.json";
+
             if (dialog.ShowDialog() == false)
             {
                 _chosenFilePath = "";

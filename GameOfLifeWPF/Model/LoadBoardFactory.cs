@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GameOfLifeWPF.Model.Serialization;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,7 +17,7 @@ namespace GameOfLifeWPF.Model
 
         public Board CreateBoard()
         {
-            throw new NotImplementedException();
+            return BoardSerializer.Deserialize(_path);
         }
     }
 }
