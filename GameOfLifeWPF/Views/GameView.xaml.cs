@@ -1,4 +1,5 @@
 ﻿using GameOfLifeWPF.Model;
+using GameOfLifeWPF.Model.BoardFactory;
 using GameOfLifeWPF.Model.Serialization;
 using Microsoft.Win32;
 using System;
@@ -32,15 +33,7 @@ namespace GameOfLifeWPF.Views
         public GameView(IBoardFactory boardFactory)
         {
             InitializeComponent();
-            try
-            {
-                Board = boardFactory.CreateBoard();
-            }
-            catch
-            {
-                App.Navigate(this, new TitleView());
-                MessageBox.Show("ERROR");
-            }
+            Board = boardFactory.CreateBoard();
             DataContext = Board;
             _autoTimer = new DispatcherTimer();
             _autoTimer.Tick += AutoTimerTick;

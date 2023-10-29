@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GameOfLifeWPF.Model
+namespace GameOfLifeWPF.Model.BoardFactory
 {
     public interface IBoardFactory
     {
         public Board CreateBoard();
+        public bool CanCreate();
     }
 }

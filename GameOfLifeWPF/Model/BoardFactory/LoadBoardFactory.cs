@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GameOfLifeWPF.Model
+namespace GameOfLifeWPF.Model.BoardFactory
 {
-    public class LoadBoardFactory: IBoardFactory
+    public class LoadBoardFactory : IBoardFactory
     {
         private readonly string _path;
         public LoadBoardFactory(string path)
@@ -18,6 +18,11 @@ namespace GameOfLifeWPF.Model
         public Board CreateBoard()
         {
             return BoardSerializer.Deserialize(_path);
+        }
+
+        public bool CanCreate()
+        {
+            return true;
         }
     }
 }

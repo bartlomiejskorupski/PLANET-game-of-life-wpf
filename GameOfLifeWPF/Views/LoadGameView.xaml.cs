@@ -1,4 +1,4 @@
-﻿using GameOfLifeWPF.Model;
+﻿using GameOfLifeWPF.Model.BoardFactory;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
