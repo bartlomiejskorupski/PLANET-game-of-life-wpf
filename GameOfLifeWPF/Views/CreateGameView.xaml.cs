@@ -30,16 +30,15 @@ namespace GameOfLifeWPF.Views
             BoardPresetItems = new List<BoardPresetItem>()
             {
                 new BoardPresetItem("Empty", typeof(EmptyBoardFactory)),
-                new BoardPresetItem("Acorn (7x3)", typeof(AcornBoardFactory)),
-                new BoardPresetItem("Glider (3x3)", typeof(GliderBoardFactory)),
-                new BoardPresetItem("Light-weight Spaceship (5x4)", typeof(LWSSBoardFactory)),
-                new BoardPresetItem("Middle-weight Spaceship (6x5)", typeof(MWSSBoardFactory)),
-                new BoardPresetItem("Heavy-weight Spaceship (7x5)", typeof(HWSSBoardFactory)),
-                new BoardPresetItem("Pulsar (13x13)", typeof(PulsarBoardFactory)),
-                new BoardPresetItem("Glider Gun (36x9)", typeof(GliderGunBoardFactory))
+                new BoardPresetItem("Acorn", typeof(AcornBoardFactory), 7, 3),
+                new BoardPresetItem("Glider", typeof(GliderBoardFactory), 3, 3),
+                new BoardPresetItem("Light-weight Spaceship", typeof(LWSSBoardFactory), 5, 4),
+                new BoardPresetItem("Middle-weight Spaceship", typeof(MWSSBoardFactory), 6, 5),
+                new BoardPresetItem("Heavy-weight Spaceship", typeof(HWSSBoardFactory), 7, 5),
+                new BoardPresetItem("Pulsar", typeof(PulsarBoardFactory), 13, 13),
+                new BoardPresetItem("Glider Gun", typeof(GliderGunBoardFactory), 36, 9)
             };
-            BoardPresetListBox.ItemsSource = BoardPresetItems;
-            BoardPresetListBox.SelectedIndex = 0;
+            DataContext = this;
         }
 
         private void CreateButton_Click(object sender, RoutedEventArgs e)

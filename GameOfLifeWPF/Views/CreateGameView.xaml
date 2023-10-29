@@ -68,13 +68,13 @@
                 <RowDefinition Height="110"/>
             </Grid.RowDefinitions>
 
-            <Label HorizontalAlignment="Center" Content="Starting boards" Grid.Row="0"/>
+            <Label HorizontalAlignment="Center" Content="Starting boards" Grid.Row="0" FontSize="14"/>
 
             <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
-                <ListBox x:Name="BoardPresetListBox" HorizontalAlignment="Stretch">
+                <ListBox x:Name="BoardPresetListBox" SelectedIndex="0" ItemsSource="{Binding BoardPresetItems}" HorizontalAlignment="Stretch">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding Name}"/>
+                            <TextBlock Text="{Binding ListString}"/>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
