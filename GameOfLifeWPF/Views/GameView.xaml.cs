@@ -32,7 +32,15 @@ namespace GameOfLifeWPF.Views
         public GameView(IBoardFactory boardFactory)
         {
             InitializeComponent();
-            Board = boardFactory.CreateBoard();
+            try
+            {
+                Board = boardFactory.CreateBoard();
+            }
+            catch
+            {
+                App.Navigate(this, new TitleView());
+                MessageBox.Show("ERROR");
+            }
             DataContext = Board;
             _autoTimer = new DispatcherTimer();
             _autoTimer.Tick += AutoTimerTick;
@@ -236,8 +244,8 @@ namespace GameOfLifeWPF.Views
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
             var dialog = new SaveFileDialog();
-            dialog.Filter = "Json files (*.json)|*.json";
-            dialog.FileName = "GOL_" + DateTime.Now.ToString("yyyyMMdd_HHmmss") + ".json";
+            dialog.Filter = "Game of life save file (.gol)|*.gol";
+            dialog.FileName = "GOL_" + DateTime.Now.ToString("yyyyMMdd_HHmmss") + ".gol";
             bool success = (bool)dialog.ShowDialog();
 
             if (!success)

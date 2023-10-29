@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection.PortableExecutable;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,14 +15,24 @@ namespace GameOfLifeWPF.Model.Serialization
     {
         public static void Serialize(Board board, string path)
         {
-            string serialized = JsonConvert.SerializeObject(board);
-            File.WriteAllText(path, serialized);
+            JsonSerializer serializer = new JsonSerializer();
+
+            using (StreamWriter sw = new StreamWriter(path))
+            using (JsonWriter writer = new JsonTextWriter(sw))
+            {
+                serializer.Serialize(writer, board);
+            }
         }
 
         public static Board Deserialize(string path)
         {
-            string boardJson = File.ReadAllText(path);
-            return JsonConvert.DeserializeObject<Board>(boardJson);
+            JsonSerializer serializer = new JsonSerializer();
+
+            using (StreamReader sr = new StreamReader(path))
+            using (JsonReader reader = new JsonTextReader(sr))
+            {
+                return serializer.Deserialize<Board>(reader);
+            }
         }
     }
 }

@@ -38,7 +38,7 @@ namespace GameOfLifeWPF.Views
         private void ChooseFile_Click(object sender, RoutedEventArgs e)
         {
             var dialog = new OpenFileDialog();
-            dialog.Filter = "Json files (.json)|*.json";
+            dialog.Filter = "Game of life save file (.gol)|*.gol";
 
             if (dialog.ShowDialog() == false)
             {
