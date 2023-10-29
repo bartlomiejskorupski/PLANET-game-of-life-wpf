@@ -5,8 +5,14 @@
              StartupUri="MainWindow.xaml">
     <Application.Resources>
         <ResourceDictionary>
+            <Style TargetType="Grid">
+                <Setter Property="Background" Value="#B2C8BA"/>
+            </Style>
             <Style TargetType="TextBlock">
                 <Setter Property="FontFamily" Value="Cascadia Code"/>
+            </Style>
+            <Style TargetType="Button">
+                <Setter Property="Background" Value="#D2E3C8"/>
             </Style>
         </ResourceDictionary>
     </Application.Resources>
