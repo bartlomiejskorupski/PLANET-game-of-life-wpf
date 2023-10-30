@@ -70,7 +70,7 @@ namespace GameOfLifeWPF.Views
                 Width = cellSize,
                 Height = cellSize,
                 Stroke = new SolidColorBrush(Colors.Black),
-                StrokeThickness = 1.0,
+                StrokeThickness = 0.5,
                 Fill = new SolidColorBrush(cellState ? Colors.White : Colors.Gray)
             };
             rect.DataContext = new RectCellData(x, y, cellState);

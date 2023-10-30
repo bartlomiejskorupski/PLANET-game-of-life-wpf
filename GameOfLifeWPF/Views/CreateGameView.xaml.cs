@@ -49,6 +49,12 @@ namespace GameOfLifeWPF.Views
                 return;
             }
 
+            if(width <= 0 || width > 99 || height <= 0 || height > 99)
+            {
+                MessageBox.Show("Incorrect board size. Width and height\nmust be between 1 and 99 in size.\nRecommended size: 80x40", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
             BoardPresetItem preset = (BoardPresetItem)BoardPresetListBox.SelectedItem;
             IBoardFactory factory = (IBoardFactory)Activator.CreateInstance(preset.BoardFactoryType, new object[] {width, height});
 
