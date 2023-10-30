@@ -8,7 +8,11 @@
              d:DesignHeight="450" d:DesignWidth="450">
     <Grid x:Name="GameGrid">
         <Grid.Resources>
-            <Style TargetType="Button">
+            <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+                <Setter Property="MinHeight" Value="40"/>
+                <Setter Property="Margin" Value="5"/>
+            </Style>
+            <Style TargetType="ToggleButton" BasedOn="{StaticResource {x:Type ToggleButton}}">
                 <Setter Property="MinHeight" Value="40"/>
                 <Setter Property="Margin" Value="5"/>
             </Style>
@@ -17,29 +21,6 @@
             </Style>
             <Style TargetType="TextBlock">
                 <Setter Property="HorizontalAlignment" Value="Center"/>
-            </Style>
-            <Style TargetType="ToggleButton">
-                <Setter Property="Template">
-                    <Setter.Value>
-                        <ControlTemplate TargetType="ToggleButton">
-                            <Border BorderBrush="Black"
-                                    BorderThickness="0.4"
-                                    Background="{TemplateBinding Background}"
-                                    Margin="5">
-                                <ContentPresenter HorizontalAlignment="Center"
-                                                  VerticalAlignment="Center"/>
-                            </Border>
-                        </ControlTemplate>
-                    </Setter.Value>
-                </Setter>
-                <Style.Triggers>
-                    <Trigger Property="IsMouseOver" Value="True">
-                        <Setter Property="Background" Value="LightCyan"/>
-                    </Trigger>
-                    <Trigger Property="IsChecked" Value="True">
-                        <Setter Property="Background" Value="#aaa"/>
-                    </Trigger>
-                </Style.Triggers>
             </Style>
         </Grid.Resources>
 
@@ -57,7 +38,7 @@
             <RowDefinition Height="0"/>
         </Grid.RowDefinitions>
 
-        <Grid Grid.Row="1" Background="#86A789">
+        <Grid Grid.Row="1" Background="{StaticResource  Brush1}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="10"/>
@@ -94,7 +75,7 @@
                     x:Name="GameCanvas" Loaded="GameCanvas_Loaded"/>
         </ContentControl>
 
-        <Grid Grid.Column="1" Grid.Row="5" Background="#86A789">
+        <Grid Grid.Column="1" Grid.Row="5" Background="{StaticResource Brush1}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="0"/>
@@ -121,7 +102,7 @@
             <Button x:Name="PreviousButton" Content="&lt;" Grid.Column="6" Click="PreviousButton_Click"/>
             <Button x:Name="NextButton" Content="&gt;" Grid.Column="8" Click="NextButton_Click"/>
             <ToggleButton x:Name="AutoToggleButton" Content="Auto" Grid.Column="8" Grid.Row="2" Checked="AutoToggleButton_Checked" Unchecked="AutoToggleButton_Unchecked"/>
-            <ToggleButton x:Name="GridButton" Content="Show Grid" Grid.Column="6" Grid.Row="2" IsChecked="True" Unchecked="GridButton_Unchecked" Checked="GridButton_Checked"/>
+            <!-- ToggleButton x:Name="GridButton" Content="Show Grid" Grid.Column="6" Grid.Row="2" IsChecked="True" Unchecked="GridButton_Unchecked" Checked="GridButton_Checked"/-->
         </Grid>
     </Grid>
 </UserControl>

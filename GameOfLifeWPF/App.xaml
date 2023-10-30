@@ -4,13 +4,117 @@
              xmlns:local="clr-namespace:GameOfLifeWPF"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-        <ResourceDictionary>
-            <Style TargetType="Grid">
-                <Setter Property="Background" Value="#B2C8BA"/>
-            </Style>
-            <Style TargetType="TextBlock">
-                <Setter Property="FontFamily" Value="Cascadia Code"/>
-            </Style>
-        </ResourceDictionary>
+        <Color x:Key="Color0">#618264</Color>
+        <Color x:Key="Color1">#79AC78</Color>
+        <Color x:Key="Color2">#B0D9B1</Color>
+        <Color x:Key="Color3">#D0E7D2</Color>
+        <SolidColorBrush x:Key="Brush0" Color="{StaticResource Color0}"/>
+        <SolidColorBrush x:Key="Brush1" Color="{StaticResource Color1}"/>
+        <SolidColorBrush x:Key="Brush2" Color="{StaticResource Color2}"/>
+        <SolidColorBrush x:Key="Brush3" Color="{StaticResource Color3}"/>
+
+        <Style TargetType="{x:Type TextBlock}">
+            <Setter Property="FontFamily" Value="Cascadia Code"/>
+        </Style>
+        <Style TargetType="{x:Type Grid}">
+            <Setter Property="Background" Value="{StaticResource Brush3}"/>
+        </Style>
+        <Style TargetType="{x:Type Button}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Background" Value="{StaticResource Brush2}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource Brush0}"/>
+
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Trigger.EnterActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <ColorAnimation
+                                    Storyboard.TargetProperty="(Background).(SolidColorBrush.Color)"
+                                    To="{StaticResource Color1}"
+                                    Duration="0:0:0.2"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </Trigger.EnterActions>
+                    <Trigger.ExitActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <ColorAnimation
+                                    Storyboard.TargetProperty="(Background).(SolidColorBrush.Color)"
+                                    To="{StaticResource Color2}"
+                                    Duration="0:0:0.2" />
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </Trigger.ExitActions>
+                </Trigger>
+
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Foreground" Value="DimGray"/>
+                    <Setter Property="BorderBrush" Value="#D0D4CA"/>
+                    <Setter Property="Background" Value="#F7FFE5"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style TargetType="{x:Type ToggleButton}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ToggleButton}">
+                        <Border
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Background" Value="{StaticResource Brush2}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource Brush0}"/>
+
+            <Style.Triggers>
+                <Trigger Property="IsChecked" Value="True">
+                    <Trigger.EnterActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <ColorAnimation
+                                    Storyboard.TargetProperty="(Background).(SolidColorBrush.Color)"
+                                    To="{StaticResource Color0}"
+                                    Duration="0:0:0.15"/>
+                                <ColorAnimation
+                                    Storyboard.TargetProperty="(BorderBrush).(SolidColorBrush.Color)"
+                                    To="{StaticResource Color2}"
+                                    Duration="0:0:0.15"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </Trigger.EnterActions>
+                    <Trigger.ExitActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <ColorAnimation
+                                    Storyboard.TargetProperty="(Background).(SolidColorBrush.Color)"
+                                    To="{StaticResource Color2}"
+                                    Duration="0:0:0.15" />
+                                <ColorAnimation
+                                    Storyboard.TargetProperty="(BorderBrush).(SolidColorBrush.Color)"
+                                    To="{StaticResource Color0}"
+                                    Duration="0:0:0.15"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </Trigger.ExitActions>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
     </Application.Resources>
 </Application>
