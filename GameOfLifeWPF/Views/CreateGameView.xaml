@@ -55,9 +55,9 @@
             </Grid.RowDefinitions>
             
             <Label Content="Width:" Grid.Column="0" Grid.Row="0"/>
-            <TextBox MaxLength="2" PreviewTextInput="NumberValidationTextBox" x:Name="WidthTB" Text="20" Grid.Column="2" Grid.Row="0" VerticalAlignment="Top"/>
+            <TextBox MaxLength="2" PreviewTextInput="NumberValidationTextBox" x:Name="WidthTB" Text="60" Grid.Column="2" Grid.Row="0" VerticalAlignment="Top"/>
             <Label Content="Height:" Grid.Column="0" Grid.Row="2"/>
-            <TextBox MaxLength="2" PreviewTextInput="NumberValidationTextBox" x:Name="HeightTB" Text="20" Grid.Column="2" Grid.Row="2" VerticalAlignment="Top"/>
+            <TextBox MaxLength="2" PreviewTextInput="NumberValidationTextBox" x:Name="HeightTB" Text="40" Grid.Column="2" Grid.Row="2" VerticalAlignment="Top"/>
             <Button IsCancel="True" Content="Cancel" Click="CancelButton_Click" Grid.Column="0" Grid.Row="4"/>
             <Button IsDefault="True" Content="Create" Click="CreateButton_Click" Grid.Column="2" Grid.Row="4"/>
         </Grid>
@@ -74,7 +74,9 @@
                 <ListBox x:Name="BoardPresetListBox" SelectedIndex="0" ItemsSource="{Binding BoardPresetItems}" HorizontalAlignment="Stretch">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding ListString}"/>
+                            <TextBlock
+                                Text="{Binding ListString}"
+                                Foreground="{Binding ColorString}"/>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>

@@ -11,9 +11,6 @@
             <Style TargetType="TextBlock">
                 <Setter Property="FontFamily" Value="Cascadia Code"/>
             </Style>
-            <Style TargetType="Button">
-                <Setter Property="Background" Value="#D2E3C8"/>
-            </Style>
         </ResourceDictionary>
     </Application.Resources>
 </Application>
