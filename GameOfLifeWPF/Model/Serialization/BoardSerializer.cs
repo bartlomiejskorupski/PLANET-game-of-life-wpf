@@ -15,24 +15,27 @@ namespace GameOfLifeWPF.Model.Serialization
     {
         public static void Serialize(Board board, string path)
         {
+            BoardMinified mini = new BoardMinified(board);
+
             JsonSerializer serializer = new JsonSerializer();
 
-            using (StreamWriter sw = new StreamWriter(path))
-            using (JsonWriter writer = new JsonTextWriter(sw))
-            {
-                serializer.Serialize(writer, board);
-            }
+            using StreamWriter sw = new StreamWriter(path);
+            using JsonWriter writer = new JsonTextWriter(sw);
+            
+            serializer.Serialize(writer, mini);
+            
         }
 
         public static Board Deserialize(string path)
         {
             JsonSerializer serializer = new JsonSerializer();
 
-            using (StreamReader sr = new StreamReader(path))
-            using (JsonReader reader = new JsonTextReader(sr))
-            {
-                return serializer.Deserialize<Board>(reader);
-            }
+            using StreamReader sr = new StreamReader(path);
+            using JsonReader reader = new JsonTextReader(sr);
+            
+            var mini = serializer.Deserialize<BoardMinified>(reader);
+
+            return mini.ToBoard();
         }
     }
 }

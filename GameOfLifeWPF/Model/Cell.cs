@@ -11,7 +11,6 @@ namespace GameOfLifeWPF.Model
 {
     public class Cell
     {
-        [JsonProperty(PropertyName = "a")]
         public bool IsAlive { get; set; }
         public Cell(bool isAlive)
         {

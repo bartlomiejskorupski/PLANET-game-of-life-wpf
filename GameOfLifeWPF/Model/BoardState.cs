@@ -14,7 +14,6 @@ namespace GameOfLifeWPF.Model
         public int Height { get; set; }
         
         public int Generation { get; set; }
-        [JsonIgnore]
         public int Alive
         {
             get
