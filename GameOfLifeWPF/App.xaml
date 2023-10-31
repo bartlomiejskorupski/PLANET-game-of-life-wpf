@@ -1,8 +1,7 @@
 ﻿<Application x:Class="GameOfLifeWPF.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:GameOfLifeWPF"
-             StartupUri="MainWindow.xaml">
+             xmlns:local="clr-namespace:GameOfLifeWPF">
     <Application.Resources>
         <Color x:Key="Color0">#618264</Color>
         <Color x:Key="Color1">#79AC78</Color>

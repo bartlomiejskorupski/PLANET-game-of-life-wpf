@@ -23,7 +23,7 @@ namespace GameOfLifeTest.ModelTests
             };
 
             var cellsString = BoardStateMinified.CellsArrayToString(cells);
-            Assert.Equal("1100010100000100", cellsString);
+            Assert.Equal("C504", cellsString);
         }
 
         [Fact]
@@ -41,13 +41,13 @@ namespace GameOfLifeTest.ModelTests
             };
 
             var cellsString = BoardStateMinified.CellsArrayToString(cells);
-            Assert.Equal("1100010100000100010001000100", cellsString);
+            Assert.Equal("C5044404", cellsString);
         }
 
         [Fact]
         public void CellsStringToArray_When7x4_ShouldCreateMinifiedCellsString()
         {
-            var cells = BoardStateMinified.CellsStringToArray("1100010100000100010001000100", 7, 4);
+            var cells = BoardStateMinified.CellsStringToArray("C5044404", 7, 4);
             Assert.Equal(7, cells.GetLength(0));
             Assert.Equal(4, cells.GetLength(1));
             Assert.True(cells[0, 0].IsAlive);

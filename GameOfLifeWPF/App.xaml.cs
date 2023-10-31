@@ -14,11 +14,19 @@ namespace GameOfLifeWPF
     /// </summary>
     public partial class App : Application
     {
-        public static void Navigate(UserControl caller, UserControl navigateTo)
+        private static MainWindow _mainWindow;
+
+        protected override void OnStartup(StartupEventArgs e)
         {
-            var window = Window.GetWindow(caller);
-            var mainContent = (ContentControl)window.FindName("MainContent");
-            mainContent.Content = navigateTo;
+            _mainWindow = new MainWindow();
+            _mainWindow.Show();
+
+            base.OnStartup(e);
+        }
+
+        public static void Navigate(UserControl navigateTo)
+        {
+            _mainWindow.MainContent.Content = navigateTo;
         }
     }
 }

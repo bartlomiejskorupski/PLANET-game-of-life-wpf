@@ -64,12 +64,12 @@ namespace GameOfLifeWPF.Views
                 return;
             }
 
-            App.Navigate(this, new GameView(factory));
+            App.Navigate(new GameView(factory));
         }
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
-            App.Navigate(this, new TitleView());
+            App.Navigate(new TitleView());
         }
 
         private void NumberValidationTextBox(object sender, TextCompositionEventArgs e)

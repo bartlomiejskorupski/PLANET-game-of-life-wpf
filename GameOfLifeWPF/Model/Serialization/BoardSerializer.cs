@@ -21,8 +21,14 @@ namespace GameOfLifeWPF.Model.Serialization
 
             using StreamWriter sw = new StreamWriter(path);
             using JsonWriter writer = new JsonTextWriter(sw);
-            
-            serializer.Serialize(writer, mini);
+            try
+            {
+                serializer.Serialize(writer, mini);
+            }
+            catch
+            {
+                throw new JsonSerializationException("Error serializing board.");
+            }
             
         }
 
@@ -32,10 +38,21 @@ namespace GameOfLifeWPF.Model.Serialization
 
             using StreamReader sr = new StreamReader(path);
             using JsonReader reader = new JsonTextReader(sr);
-            
-            var mini = serializer.Deserialize<BoardMinified>(reader);
 
-            return mini.ToBoard();
+            var mini = serializer.Deserialize<BoardMinified>(reader);
+            if (mini == null)
+                throw new JsonSerializationException("Error deserializing save file.");
+
+            try
+            {
+                var board = mini.ToBoard();
+                return board;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
         }
     }
 }

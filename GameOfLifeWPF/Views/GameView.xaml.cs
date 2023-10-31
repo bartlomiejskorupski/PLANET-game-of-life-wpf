@@ -194,7 +194,7 @@ namespace GameOfLifeWPF.Views
             );
             if (result != MessageBoxResult.Yes)
                 return;
-            App.Navigate(this, new TitleView());
+            App.Navigate(new TitleView());
         }
 
         private void AutoToggleButton_Checked(object sender, RoutedEventArgs e)

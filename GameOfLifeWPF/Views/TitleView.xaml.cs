@@ -27,7 +27,7 @@ namespace GameOfLifeWPF.Views
 
         private void NewGameButton_Click(object sender, RoutedEventArgs e)
         {
-            App.Navigate(this, new CreateGameView());
+            App.Navigate(new CreateGameView());
         }
 
         private void ExitButton_Click(object sender, RoutedEventArgs e)
@@ -44,7 +44,7 @@ namespace GameOfLifeWPF.Views
 
         private void LoadGameButton_Click(object sender, RoutedEventArgs e)
         {
-            App.Navigate(this, new LoadGameView());
+            App.Navigate(new LoadGameView());
         }
     }
 }

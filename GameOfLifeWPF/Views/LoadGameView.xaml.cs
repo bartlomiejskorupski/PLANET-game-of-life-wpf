@@ -32,7 +32,7 @@ namespace GameOfLifeWPF.Views
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
-            App.Navigate(this, new TitleView());
+            App.Navigate(new TitleView());
         }
 
         private void ChooseFile_Click(object sender, RoutedEventArgs e)
@@ -58,7 +58,13 @@ namespace GameOfLifeWPF.Views
 
         private void ContinueButton_Click(object sender, RoutedEventArgs e)
         {
-            App.Navigate(this, new GameView(new LoadBoardFactory(_chosenFilePath)));
+            var factory = new LoadBoardFactory(_chosenFilePath);
+            if (!factory.CanCreate())
+            {
+                MessageBox.Show($"Error loading file.\nThe file may be corrupted.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            App.Navigate(new GameView(factory));
         }
     }
 }

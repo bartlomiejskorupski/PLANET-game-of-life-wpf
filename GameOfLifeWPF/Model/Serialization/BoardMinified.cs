@@ -15,6 +15,10 @@ namespace GameOfLifeWPF.Model.Serialization
         public int Width { get; set; }
         [JsonProperty(PropertyName = "h")]
         public int Height { get; set; }
+        public BoardMinified()
+        {
+
+        }
         public BoardMinified(Board board)
         {
             Width = board.Width;
