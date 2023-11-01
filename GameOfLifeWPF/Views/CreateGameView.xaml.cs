@@ -24,6 +24,7 @@ namespace GameOfLifeWPF.Views
     public partial class CreateGameView : UserControl
     {
         public List<BoardPresetItem> BoardPresetItems { get; set; }
+        public int MaxBoardSize { get; set; }
         public CreateGameView()
         {
             InitializeComponent();
@@ -38,6 +39,7 @@ namespace GameOfLifeWPF.Views
                 new BoardPresetItem("Pulsar", typeof(PulsarBoardFactory), 13, 13, "DarkMagenta"),
                 new BoardPresetItem("Glider Gun", typeof(GliderGunBoardFactory), 36, 9, "Maroon")
             };
+            MaxBoardSize = 999;
             DataContext = this;
         }
 
@@ -49,7 +51,7 @@ namespace GameOfLifeWPF.Views
                 return;
             }
 
-            if(width <= 0 || width > 99 || height <= 0 || height > 99)
+            if(width <= 0 || width > MaxBoardSize || height <= 0 || height > MaxBoardSize)
             {
                 MessageBox.Show("Incorrect board size. Width and height\nmust be between 1 and 99 in size.\nRecommended size: 80x40", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;

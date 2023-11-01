@@ -48,7 +48,6 @@ namespace GameOfLifeWPF.Views
         private void CreateCanvas()
         {
             GameCanvas.Children.Clear();
-            GameCanvas.Background = new SolidColorBrush(Colors.Gray);
 
             CalculateCanvasDimensions(out double cellSize, out double offsetLeft, out double offsetTop);
 
@@ -194,6 +193,8 @@ namespace GameOfLifeWPF.Views
             );
             if (result != MessageBoxResult.Yes)
                 return;
+
+            DataContext = null;
             App.Navigate(new TitleView());
         }
 
