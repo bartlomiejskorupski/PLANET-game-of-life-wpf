@@ -2,6 +2,7 @@
 using GameOfLifeWPF.Model.Serialization;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,33 +15,35 @@ namespace GameOfLifeTest.ModelTests
         [Fact]
         public void CellsArrayToString_When4x4_ShouldCreateMinifiedCellsString()
         {
-            var cells = new Cell[4, 4]
+            var cellsArr = new int[4, 4]
             {
-                { new Cell(true), new Cell(true), new Cell(), new Cell(),  },
-                { new Cell(), new Cell(true), new Cell(), new Cell(true),  },
-                { new Cell(), new Cell(), new Cell(), new Cell(),  },
-                { new Cell(), new Cell(true), new Cell(), new Cell(),  },
+                { 1,1,0,0  },
+                { 0,1,0,1  },
+                { 0,0,0,0  },
+                { 0,1,0,0  },
             };
+            var cells = Helpers.CellsArrayToSet(cellsArr);
 
-            var cellsString = BoardStateMinified.CellsArrayToString(cells);
+            var cellsString = BoardStateMinified.CellsArrayToString(cells, 4, 4);
             Assert.Equal("C504", cellsString);
         }
 
         [Fact]
         public void CellsArrayToString_When7x4_ShouldCreateMinifiedCellsString()
         {
-            var cells = new Cell[7, 4]
+            var cellsArr = new int[7, 4]
             {
-                { new Cell(true), new Cell(true), new Cell(), new Cell(),  },
-                { new Cell(), new Cell(true), new Cell(), new Cell(true),  },
-                { new Cell(), new Cell(), new Cell(), new Cell(),  },
-                { new Cell(), new Cell(true), new Cell(), new Cell(),  },
-                { new Cell(), new Cell(true), new Cell(), new Cell(),  },
-                { new Cell(), new Cell(true), new Cell(), new Cell(),  },
-                { new Cell(), new Cell(true), new Cell(), new Cell(),  },
+                { 1,1,0,0 },
+                { 0,1,0,1 },
+                { 0,0,0,0 },
+                { 0,1,0,0 },
+                { 0,1,0,0 },
+                { 0,1,0,0 },
+                { 0,1,0,0 },
             };
+            var cells = Helpers.CellsArrayToSet(cellsArr);
 
-            var cellsString = BoardStateMinified.CellsArrayToString(cells);
+            var cellsString = BoardStateMinified.CellsArrayToString(cells, 7, 4);
             Assert.Equal("C5044404", cellsString);
         }
 
@@ -48,16 +51,14 @@ namespace GameOfLifeTest.ModelTests
         public void CellsStringToArray_When7x4_ShouldCreateMinifiedCellsString()
         {
             var cells = BoardStateMinified.CellsStringToArray("C5044404", 7, 4);
-            Assert.Equal(7, cells.GetLength(0));
-            Assert.Equal(4, cells.GetLength(1));
-            Assert.True(cells[0, 0].IsAlive);
-            Assert.True(cells[0, 1].IsAlive);
-            Assert.False(cells[0, 2].IsAlive);
-            Assert.False(cells[0, 3].IsAlive);
-            Assert.False(cells[4, 0].IsAlive);
-            Assert.True(cells[4, 1].IsAlive);
-            Assert.False(cells[4, 2].IsAlive);
-            Assert.False(cells[4, 3].IsAlive);
+            Assert.Contains(new Point(0, 0), cells);
+            Assert.Contains(new Point(0, 1), cells);
+            Assert.DoesNotContain(new Point(0, 2), cells);
+            Assert.DoesNotContain(new Point(0, 3), cells);
+            Assert.DoesNotContain(new Point(4, 0), cells);
+            Assert.Contains(new Point(4, 1), cells);
+            Assert.DoesNotContain(new Point(4, 2), cells);
+            Assert.DoesNotContain(new Point(4, 3), cells);
         }
 
     }

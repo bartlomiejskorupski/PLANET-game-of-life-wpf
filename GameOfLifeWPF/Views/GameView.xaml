@@ -71,7 +71,9 @@
             x:Name="GameCanvas"
             Grid.Column="1"
             Grid.Row="3"
-            SizeChanged="GameCanvas_SizeChanged">
+            SizeChanged="GameCanvas_SizeChanged"
+            MouseDown="GameCanvas_MouseDown"
+            Background="{StaticResource Brush3}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <Canvas
@@ -91,8 +93,7 @@
                         <Rectangle
                             Width="{Binding Width}"
                             Height="{Binding Height}"
-                            Fill="{Binding Fill}"
-                            MouseDown="OnRectangle_MouseDown"/>
+                            Fill="{Binding Fill}"/>
                     </Border>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>

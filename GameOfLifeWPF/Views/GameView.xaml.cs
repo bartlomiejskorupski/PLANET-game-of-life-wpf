@@ -18,6 +18,7 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Media.Media3D;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
@@ -54,9 +55,40 @@ namespace GameOfLifeWPF.Views
         {
             CalculateCanvasDimensions(out double cellSize, out double offsetLeft, out double offsetTop);
 
+            ClearCanvas();
+
+            var currentState = Board.CurrentState;
+            // Canvas background
+            Cells.Add(new RectangleViewModel()
+            {
+                Width = cellSize * currentState.Width,
+                Height = cellSize * currentState.Height,
+                Left = -offsetLeft,
+                Top = -offsetTop,
+                Fill = new SolidColorBrush(Colors.Gray)
+            });
+
+            foreach(var cell in currentState.Cells)
+            {
+                Cells.Add(new RectangleViewModel()
+                {
+                    Width = cellSize,
+                    Height = cellSize,
+                    Left = cellSize * cell.X - offsetLeft,
+                    Top = cellSize * cell.Y - offsetTop,
+                    X = cell.X,
+                    Y = cell.Y
+                });
+            }
+
+            GameCanvas.ItemsSource = Cells;
+        }
+
+        private void ClearCanvas()
+        {
             Canvas canvas = FindVisualChild<Canvas>(GameCanvas);
 
-            if (canvas != null)
+/*            if (canvas != null)
             {
                 foreach (ContentPresenter child in canvas.Children)
                 {
@@ -71,41 +103,10 @@ namespace GameOfLifeWPF.Views
                         }
                     }
                 }
-            }
+            }*/
 
             Cells.Clear();
             GameCanvas.ItemsSource = null;
-
-            var currentState = Board.CurrentState;
-            // Canvas background
-            Cells.Add(new RectangleViewModel()
-            {
-                Width = cellSize * currentState.Width,
-                Height = cellSize * currentState.Height,
-                Left = -offsetLeft,
-                Top = -offsetTop,
-                Fill = new SolidColorBrush(Colors.Gray)
-            });
-
-            for (int x = 0; x < currentState.Width; x++)
-            {
-                for (int y = 0; y < currentState.Height; y++)
-                {
-                    var cellAlive = currentState.Cells[x, y].IsAlive;
-                    if (cellAlive)
-                        Cells.Add(new RectangleViewModel()
-                        {
-                            Width = cellSize,
-                            Height = cellSize,
-                            Left = cellSize * x - offsetLeft,
-                            Top = cellSize * y - offsetTop,
-                            X = x,
-                            Y = y
-                        });
-                }
-            }
-
-            GameCanvas.ItemsSource = Cells;
         }
 
         private void CalculateCanvasDimensions(out double cellSize, out double offsetLeft, out double offsetTop)
@@ -130,28 +131,38 @@ namespace GameOfLifeWPF.Views
             }
         }
 
-        private void OnRectangle_MouseDown(object sender, MouseButtonEventArgs e)
+        private void GameCanvas_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            var rect = (Rectangle)sender;
-            var rectVM = (RectangleViewModel)rect.DataContext;
+            var itemsControl = (ItemsControl)sender;
+            CalculateCanvasDimensions(out double cellSize, out double offsetLeft, out double offsetTop);
 
-            int cellX, cellY;
+            var canvasWidth = cellSize * Board.Width;
+            var canvasHeight = cellSize * Board.Height;
 
-            if (rectVM.X != -1 && rectVM.Y != -1)
+            var icWidth = itemsControl.ActualWidth;
+            var icHeight = itemsControl.ActualHeight;
+
+            var widthDiff = icWidth - canvasWidth;
+            var heightDiff = icHeight - canvasHeight;
+
+            var wDiffHalf = widthDiff / 2.0;
+            var hDiffHalf = heightDiff / 2.0;
+
+            var clickPoint = e.GetPosition(itemsControl);
+            var cellX = (int)((clickPoint.X - wDiffHalf) / cellSize);
+            var cellY = (int)((clickPoint.Y - hDiffHalf) / cellSize);
+
+            if (cellX < 0 || cellY < 0 || cellX > Board.Width || cellY > Board.Height)
+                return;
+
+            var currentState = Board.CurrentState;
+            if(currentState.IsCellAlive(cellX, cellY))
             {
-                cellX = rectVM.X;
-                cellY = rectVM.Y;
-
+                var rectVM = Cells.Where(vm => vm.X == cellX && vm.Y == cellY).First();
                 Cells.Remove(rectVM);
             }
             else
             {
-                CalculateCanvasDimensions(out double cellSize, out double offsetLeft, out double offsetTop);
-
-                var clickPoint = e.GetPosition(rect);
-                cellX = (int)(clickPoint.X / cellSize);
-                cellY = (int)(clickPoint.Y / cellSize);
-
                 Cells.Add(new RectangleViewModel()
                 {
                     X = cellX,
@@ -163,7 +174,7 @@ namespace GameOfLifeWPF.Views
                 });
             }
 
-            Board.CurrentState.ToggleCellState(cellX, cellY);
+            currentState.ToggleCellState(cellX, cellY);
             AliveTB.Text = Board.AliveText;
         }
 

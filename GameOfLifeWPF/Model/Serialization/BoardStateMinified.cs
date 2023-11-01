@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -27,14 +28,11 @@ namespace GameOfLifeWPF.Model.Serialization
             Died = state.Died;
             Born = state.Born;
 
-            Cells = CellsArrayToString(state.Cells);
+            Cells = CellsArrayToString(state.Cells, state.Width, state.Height);
         }
 
-        public static string CellsArrayToString(Cell[,] cells)
+        public static string CellsArrayToString(HashSet<Point> cells, int width, int height)
         {
-            int width = cells.GetLength(0);
-            int height = cells.GetLength(1);
-
             StringBuilder sb = new StringBuilder();
 
             byte cellsByte = 0;
@@ -43,9 +41,9 @@ namespace GameOfLifeWPF.Model.Serialization
             {
                 for(int y = 0; y < height; y++)
                 {
-                    var cell = cells[x, y];
+                    var alive = cells.Contains(new Point(x, y));
                     cellsByte <<= 1;
-                    if (cell.IsAlive)
+                    if (alive)
                         cellsByte |= 0b_0000_0001;
                     bitCounter++;
                     if (bitCounter >= 8)
@@ -63,12 +61,12 @@ namespace GameOfLifeWPF.Model.Serialization
             return sb.ToString();
         }
 
-        public static Cell[,] CellsStringToArray(string cellsString, int width, int height)
+        public static HashSet<Point> CellsStringToArray(string cellsString, int width, int height)
         {
             if (cellsString.Length < width * height / 4)
                 throw new Exception();
 
-            Cell[,] cells = new Cell[width, height];
+            HashSet<Point> cells = new HashSet<Point>();
 
             byte currByte = 0;
             int byteCounter = 0;
@@ -89,7 +87,8 @@ namespace GameOfLifeWPF.Model.Serialization
                     currByte <<= 1;
                     byteCounter--;
 
-                    cells[x, y] = new Cell(alive);
+                    if(alive)
+                        cells.Add(new Point(x, y));
                 }
             }
 

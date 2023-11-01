@@ -16,12 +16,6 @@ namespace GameOfLifeTest.ModelTests
             Assert.NotNull(State);
         }
 
-        [Fact]
-        public void Board_ShouldInitializeCellsArray()
-        {
-            Assert.Equal(State.Width * State.Height, State.Cells.Length);
-        }
-
         [Theory]
         [InlineData(0, 0, true)]
         [InlineData(1, 2, false)]
@@ -32,7 +26,7 @@ namespace GameOfLifeTest.ModelTests
         public void SetCellState_ShouldChangeCellIsAliveState(int x, int y, bool state)
         {
             State.SetCellState(x, y, state);
-            Assert.Equal(state, State.Cells[x, y].IsAlive);
+            Assert.Equal(state, State.IsCellAlive(x, y));
         }
 
         [Theory]
@@ -45,11 +39,11 @@ namespace GameOfLifeTest.ModelTests
         public void ToggleCellState_ShouldToggleCellIsAliveState(int x, int y)
         {
             State.ToggleCellState(x, y);
-            Assert.True(State.Cells[x, y].IsAlive);
+            Assert.True(State.IsCellAlive(x, y));
             State.ToggleCellState(x, y);
-            Assert.False(State.Cells[x, y].IsAlive);
+            Assert.False(State.IsCellAlive(x, y));
             State.ToggleCellState(x, y);
-            Assert.True(State.Cells[x, y].IsAlive);
+            Assert.True(State.IsCellAlive(x, y));
         }
 
         [Fact]
@@ -84,10 +78,10 @@ namespace GameOfLifeTest.ModelTests
             Assert.Equal(4, nextState.Alive);
             Assert.Equal(0, nextState.Died);
             Assert.Equal(0, nextState.Born);
-            Assert.True(nextState.Cells[4, 4].IsAlive);
-            Assert.True(nextState.Cells[4, 5].IsAlive);
-            Assert.True(nextState.Cells[5, 4].IsAlive);
-            Assert.True(nextState.Cells[5, 5].IsAlive);
+            Assert.True(State.IsCellAlive(4, 4));
+            Assert.True(State.IsCellAlive(4, 5));
+            Assert.True(State.IsCellAlive(5, 4));
+            Assert.True(State.IsCellAlive(5, 5));
         }
 
         [Fact]
@@ -101,11 +95,12 @@ namespace GameOfLifeTest.ModelTests
             Assert.Equal(3, nextState.Alive);
             Assert.Equal(2, nextState.Died);
             Assert.Equal(2, nextState.Born);
-            Assert.True(nextState.Cells[5, 4].IsAlive);
-            Assert.True(nextState.Cells[5, 5].IsAlive);
-            Assert.True(nextState.Cells[5, 6].IsAlive);
-            Assert.False(nextState.Cells[4, 5].IsAlive);
-            Assert.False(nextState.Cells[6, 5].IsAlive);
+            Assert.True(nextState.IsCellAlive(5,4));
+            Assert.True(nextState.IsCellAlive(5,5));
+            Assert.True(nextState.IsCellAlive(5,6));
+            Assert.True(nextState.IsCellAlive(5,4));
+            Assert.False(nextState.IsCellAlive(4,5));
+            Assert.False(nextState.IsCellAlive(6,5));
         }
 
         [Fact]
@@ -122,27 +117,27 @@ namespace GameOfLifeTest.ModelTests
             Assert.Equal(8, nextState.Alive);
             Assert.Equal(0, nextState.Died);
             Assert.Equal(2, nextState.Born);
-            Assert.True(nextState.Cells[4, 4].IsAlive);
-            Assert.True(nextState.Cells[4, 5].IsAlive);
-            Assert.True(nextState.Cells[5, 4].IsAlive);
-            Assert.True(nextState.Cells[7, 7].IsAlive);
-            Assert.True(nextState.Cells[7, 6].IsAlive);
-            Assert.True(nextState.Cells[6, 7].IsAlive);
-            Assert.True(nextState.Cells[5, 5].IsAlive);
-            Assert.True(nextState.Cells[6, 6].IsAlive);
+            Assert.True(nextState.IsCellAlive(4, 4));
+            Assert.True(nextState.IsCellAlive(4, 5));
+            Assert.True(nextState.IsCellAlive(5, 4));
+            Assert.True(nextState.IsCellAlive(7, 7));
+            Assert.True(nextState.IsCellAlive(7, 6));
+            Assert.True(nextState.IsCellAlive(6, 7));
+            Assert.True(nextState.IsCellAlive(5, 5));
+            Assert.True(nextState.IsCellAlive(6, 6));
 
             nextState = nextState.CreateNextBoardState();
             Assert.Equal(6, nextState.Alive);
             Assert.Equal(2, nextState.Died);
             Assert.Equal(2, nextState.Born);
-            Assert.True(nextState.Cells[4, 4].IsAlive);
-            Assert.True(nextState.Cells[4, 5].IsAlive);
-            Assert.True(nextState.Cells[5, 4].IsAlive);
-            Assert.True(nextState.Cells[7, 7].IsAlive);
-            Assert.True(nextState.Cells[7, 6].IsAlive);
-            Assert.True(nextState.Cells[6, 7].IsAlive);
-            Assert.False(nextState.Cells[5, 5].IsAlive);
-            Assert.False(nextState.Cells[6, 6].IsAlive);
+            Assert.True(nextState.IsCellAlive(4, 4));
+            Assert.True(nextState.IsCellAlive(4, 5));
+            Assert.True(nextState.IsCellAlive(5, 4));
+            Assert.True(nextState.IsCellAlive(7, 7));
+            Assert.True(nextState.IsCellAlive(7, 6));
+            Assert.True(nextState.IsCellAlive(6, 7));
+            Assert.False(nextState.IsCellAlive(5, 5));
+            Assert.False(nextState.IsCellAlive(6, 6));
         }
     }
 }
