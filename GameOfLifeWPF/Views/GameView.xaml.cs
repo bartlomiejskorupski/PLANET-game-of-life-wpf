@@ -5,6 +5,7 @@ using GameOfLifeWPF.Model.Serialization;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection.Emit;
@@ -32,11 +33,15 @@ namespace GameOfLifeWPF.Views
         private DispatcherTimer _autoTimer;
         private DispatcherTimer _resizeTimer;
 
+        private ObservableCollection<RectangleViewModel> Cells { get; } = new ObservableCollection<RectangleViewModel>();
+
+
         public GameView(IBoardFactory boardFactory)
         {
             InitializeComponent();
             Board = boardFactory.CreateBoard();
             DataContext = Board;
+
             _autoTimer = new DispatcherTimer();
             _autoTimer.Tick += AutoTimerTick;
             _autoTimer.Interval = new TimeSpan(0, 0, 0, 0, 200);
@@ -45,79 +50,72 @@ namespace GameOfLifeWPF.Views
             _resizeTimer.Interval = new TimeSpan(0, 0, 0, 0, 500);
         }
 
-        private void CreateCanvas()
-        {
-            GameCanvas.Children.Clear();
-
-            CalculateCanvasDimensions(out double cellSize, out double offsetLeft, out double offsetTop);
-
-            var currentState = Board.CurrentState;
-            for (int x = 0; x < currentState.Width; x++)
-            {
-                for (int y = 0; y < currentState.Height; y++)
-                {
-                    var cellState = currentState.Cells[x, y].IsAlive;
-                    AddCellRectangle(x, y, cellSize, cellState, offsetLeft, offsetTop);
-                }
-            }
-        }
-
-        private void AddCellRectangle(int x, int y, double cellSize, bool cellState, double offsetLeft, double offsetTop)
-        {
-            var rect = new Rectangle()
-            {
-                Width = cellSize,
-                Height = cellSize,
-                Stroke = new SolidColorBrush(Colors.Black),
-                StrokeThickness = 0.5,
-                Fill = new SolidColorBrush(cellState ? Colors.White : Colors.Gray)
-            };
-            rect.DataContext = new RectCellData(x, y, cellState);
-            rect.MouseDown += OnCellMouseDown;
-            Canvas.SetLeft(rect, x * cellSize - offsetLeft);
-            Canvas.SetTop(rect, y * cellSize - offsetTop);
-            GameCanvas.Children.Add(rect);
-        }
-
         private void UpdateCanvas()
         {
             CalculateCanvasDimensions(out double cellSize, out double offsetLeft, out double offsetTop);
 
-            foreach (Rectangle rect in GameCanvas.Children)
+            Canvas canvas = FindVisualChild<Canvas>(GameCanvas);
+
+            if (canvas != null)
             {
-                UpdateCellRect(rect, cellSize, offsetLeft, offsetTop);
-            }
-        }
-        private void UpdateCellRect(Rectangle rect, double cellSize, double offsetLeft, double offsetTop)
-        {
-            var rectCellData = (RectCellData)rect.DataContext;
+                foreach (ContentPresenter child in canvas.Children)
+                {
+                    if (child.Content is RectangleViewModel rectangleViewModel)
+                    {
+                        // Access the visual representation (Rectangle) within the DataTemplate
+                        Rectangle rectangle = FindVisualChild<Rectangle>(child);
 
-            if (rect.Width != cellSize)
+                        if (rectangle != null)
+                        {
+                            rectangle.MouseDown -= OnRectangle_MouseDown;
+                        }
+                    }
+                }
+            }
+
+            Cells.Clear();
+            GameCanvas.ItemsSource = null;
+
+            var currentState = Board.CurrentState;
+            // Canvas background
+            Cells.Add(new RectangleViewModel()
             {
-                rect.Width = cellSize;
-                rect.Height = cellSize;
-                Canvas.SetLeft(rect, rectCellData.X * cellSize - offsetLeft);
-                Canvas.SetTop(rect, rectCellData.Y * cellSize - offsetTop);
+                Width = cellSize * currentState.Width,
+                Height = cellSize * currentState.Height,
+                Left = -offsetLeft,
+                Top = -offsetTop,
+                Fill = new SolidColorBrush(Colors.Gray)
+            });
+
+            for (int x = 0; x < currentState.Width; x++)
+            {
+                for (int y = 0; y < currentState.Height; y++)
+                {
+                    var cellAlive = currentState.Cells[x, y].IsAlive;
+                    if (cellAlive)
+                        Cells.Add(new RectangleViewModel()
+                        {
+                            Width = cellSize,
+                            Height = cellSize,
+                            Left = cellSize * x - offsetLeft,
+                            Top = cellSize * y - offsetTop,
+                            X = x,
+                            Y = y
+                        });
+                }
             }
-            
-            var cell = Board.CurrentState.Cells[rectCellData.X, rectCellData.Y];
 
-            if (cell.IsAlive == rectCellData.IsAlive)
-                return;
-
-            rectCellData.IsAlive = cell.IsAlive;
-            rect.Fill = new SolidColorBrush(cell.IsAlive ? Colors.White : Colors.Gray);
+            GameCanvas.ItemsSource = Cells;
         }
 
         private void CalculateCanvasDimensions(out double cellSize, out double offsetLeft, out double offsetTop)
         {
-            double contWidth = CanvasContainer.ActualWidth;
-            double contHeight = CanvasContainer.ActualHeight;
+            double contWidth = GameCanvas.ActualWidth;
+            double contHeight = GameCanvas.ActualHeight;
 
             double containerRatio = contWidth / contHeight;
             double boardRatio = Board.Width / Board.Height;
 
-            cellSize = 0.0;
             if (containerRatio >= boardRatio)
             {
                 cellSize = contHeight / Board.Height;
@@ -132,20 +130,64 @@ namespace GameOfLifeWPF.Views
             }
         }
 
-        private void OnCellMouseDown(object sender, MouseButtonEventArgs e)
+        private void OnRectangle_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            var rect = sender as Rectangle;
-            var rectCellData = (RectCellData)rect.DataContext;
-            var x = rectCellData.X;
-            var y = rectCellData.Y;
+            var rect = (Rectangle)sender;
+            var rectVM = (RectangleViewModel)rect.DataContext;
 
-            Board.CurrentState.ToggleCellState(x, y);
-            rectCellData.IsAlive = !rectCellData.IsAlive;
+            int cellX, cellY;
 
-            var cell = Board.CurrentState.Cells[x, y];
+            if (rectVM.X != -1 && rectVM.Y != -1)
+            {
+                cellX = rectVM.X;
+                cellY = rectVM.Y;
+
+                Cells.Remove(rectVM);
+            }
+            else
+            {
+                CalculateCanvasDimensions(out double cellSize, out double offsetLeft, out double offsetTop);
+
+                var clickPoint = e.GetPosition(rect);
+                cellX = (int)(clickPoint.X / cellSize);
+                cellY = (int)(clickPoint.Y / cellSize);
+
+                Cells.Add(new RectangleViewModel()
+                {
+                    X = cellX,
+                    Y = cellY,
+                    Width = cellSize,
+                    Height = cellSize,
+                    Left = cellSize * cellX - offsetLeft,
+                    Top = cellSize * cellY - offsetTop,
+                });
+            }
+
+            Board.CurrentState.ToggleCellState(cellX, cellY);
             AliveTB.Text = Board.AliveText;
+        }
 
-            rect.Fill = new SolidColorBrush(cell.IsAlive ? Colors.White : Colors.Gray);
+        private T FindVisualChild<T>(DependencyObject parent) where T : DependencyObject
+        {
+            int childrenCount = VisualTreeHelper.GetChildrenCount(parent);
+
+            for (int i = 0; i < childrenCount; i++)
+            {
+                DependencyObject child = VisualTreeHelper.GetChild(parent, i);
+
+                if (child is T found)
+                {
+                    return found;
+                }
+
+                T foundChild = FindVisualChild<T>(child);
+                if (foundChild != null)
+                {
+                    return foundChild;
+                }
+            }
+
+            return null;
         }
 
         private void DebugButton_Click(object sender, RoutedEventArgs e)
@@ -155,10 +197,10 @@ namespace GameOfLifeWPF.Views
 
         private void GameCanvas_Loaded(object sender, RoutedEventArgs e)
         {
-            CreateCanvas();
+            UpdateCanvas();
         }
 
-        private void CanvasContainer_SizeChanged(object sender, SizeChangedEventArgs e)
+        private void GameCanvas_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             _resizeTimer.Start();
         }
@@ -194,7 +236,14 @@ namespace GameOfLifeWPF.Views
             if (result != MessageBoxResult.Yes)
                 return;
 
+            Board = null;
             DataContext = null;
+
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
+            GC.Collect();
+            GC.WaitForFullGCComplete();
+
             App.Navigate(new TitleView());
         }
 
@@ -219,22 +268,6 @@ namespace GameOfLifeWPF.Views
         {
             _resizeTimer.Stop();
             UpdateCanvas();
-        }
-
-        private void GridButton_Unchecked(object sender, RoutedEventArgs e)
-        {
-            foreach(Rectangle rect in GameCanvas.Children)
-            {
-                rect.StrokeThickness = 0.0;
-            }
-        }
-
-        private void GridButton_Checked(object sender, RoutedEventArgs e)
-        {
-            foreach (Rectangle rect in GameCanvas.Children)
-            {
-                rect.StrokeThickness = 1.0;
-            }
         }
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)
@@ -262,7 +295,6 @@ namespace GameOfLifeWPF.Views
 
             Process.Start("rundll32.exe", "shell32.dll,OpenAs_RunDLL " + dialog.FileName);
         }
-
 
     }
 }

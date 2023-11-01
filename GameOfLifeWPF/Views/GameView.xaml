@@ -67,13 +67,36 @@
 
         </Grid>
 
-        <ContentControl x:Name="CanvasContainer"
-                        SizeChanged="CanvasContainer_SizeChanged"
-                        Grid.Column="1" Grid.Row="3">
-            <Canvas HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    x:Name="GameCanvas" Loaded="GameCanvas_Loaded"/>
-        </ContentControl>
+        <ItemsControl
+            x:Name="GameCanvas"
+            Grid.Column="1"
+            Grid.Row="3"
+            SizeChanged="GameCanvas_SizeChanged">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <Canvas
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemContainerStyle>
+                <Style TargetType="ContentPresenter">
+                    <Setter Property="Canvas.Left" Value="{Binding Left}" />
+                    <Setter Property="Canvas.Top" Value="{Binding Top}" />
+                </Style>
+            </ItemsControl.ItemContainerStyle>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Border>
+                        <Rectangle
+                            Width="{Binding Width}"
+                            Height="{Binding Height}"
+                            Fill="{Binding Fill}"
+                            MouseDown="OnRectangle_MouseDown"/>
+                    </Border>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
 
         <Grid Grid.Column="1" Grid.Row="5" Background="{StaticResource Brush1}">
             <Grid.ColumnDefinitions>
