@@ -247,6 +247,9 @@ namespace GameOfLifeWPF.Views
             if (result != MessageBoxResult.Yes)
                 return;
 
+            _resizeTimer.Stop();
+            _autoTimer.Stop();
+
             Board = null;
             DataContext = null;
 

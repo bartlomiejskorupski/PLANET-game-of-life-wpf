@@ -23,18 +23,26 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="50"/>
+            <RowDefinition Height="30"/>
             <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="20"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="30"/>
         </Grid.RowDefinitions>
 
-        <Label Content="Load Game" HorizontalAlignment="Center" FontWeight="Bold" FontSize="20px" Grid.Column="1" Grid.Row="1"/>
+        <Label Content="Load Game" HorizontalAlignment="Center" FontWeight="Bold" FontSize="26" Grid.Column="1" Grid.Row="1"/>
 
-        <TextBlock MaxWidth="300" HorizontalAlignment="Center" TextWrapping="Wrap" x:Name="ChosenFileLabel" Text="No file chosen" Grid.Column="1" Grid.Row="2" Foreground="#FF292929"/>
+        <TextBlock MaxWidth="300" 
+                   HorizontalAlignment="Center" 
+                   VerticalAlignment="Bottom"
+                   TextWrapping="Wrap" 
+                   x:Name="ChosenFileLabel" 
+                   Text="No file chosen" 
+                   Grid.Column="1" Grid.Row="2" 
+                   Foreground="#FF292929"/>
         <Button IsDefault="True" Content="Choose file" Grid.Column="1" Grid.Row="3" Click="ChooseFile_Click"/>
 
         <StackPanel Grid.Column="1" Grid.Row="5" Orientation="Horizontal" HorizontalAlignment="Center">
