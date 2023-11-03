@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:GameOfLifeWPF.Views"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="450">
-    <Grid Background="{StaticResource Brush3}">
+    <Grid Background="{StaticResource Brush2}">
         <Grid.Resources>
             <Style TargetType="TextBox">
                 <Setter Property="Padding" Value="3"/>
@@ -14,6 +14,8 @@
                 <Setter Property="HorizontalContentAlignment" Value="Center"/>
                 <Setter Property="HorizontalAlignment" Value="Left"/>
                 <Setter Property="FontSize" Value="18"/>
+                <Setter Property="FontFamily" Value="{StaticResource FontFamily}"/>
+                <Setter Property="Background" Value="{StaticResource Brush4}"/>
             </Style>
             <Style TargetType="Label">
                 <Setter Property="HorizontalAlignment" Value="Right"/>
@@ -83,7 +85,12 @@
                 VerticalScrollBarVisibility="Auto"
                 HorizontalAlignment="Center"
                 MinWidth="140" MinHeight="200">
-                <ListBox x:Name="BoardPresetListBox" SelectedIndex="0" ItemsSource="{Binding BoardPresetItems}" HorizontalAlignment="Stretch">
+                <ListBox 
+                    x:Name="BoardPresetListBox"
+                    SelectedIndex="0" 
+                    ItemsSource="{Binding BoardPresetItems}"
+                    HorizontalAlignment="Stretch"
+                    Background="{StaticResource Brush4}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <TextBlock

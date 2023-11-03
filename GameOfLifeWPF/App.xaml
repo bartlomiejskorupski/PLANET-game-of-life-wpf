@@ -3,17 +3,27 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:GameOfLifeWPF">
     <Application.Resources>
-        <Color x:Key="Color0">#618264</Color>
-        <Color x:Key="Color1">#79AC78</Color>
-        <Color x:Key="Color2">#B0D9B1</Color>
-        <Color x:Key="Color3">#D0E7D2</Color>
+        <FontFamily x:Key="FontFamily">Cascadia Code</FontFamily>
+        <Color x:Key="Color0">#00897b</Color>
+        <Color x:Key="Color1">#00564d</Color>
+        <Color x:Key="Color2">#282828</Color>
+        <Color x:Key="Color3">#363636</Color>
+        <Color x:Key="Color4">#969696</Color>
+        <Color x:Key="Color5">#131313</Color>
+        <Color x:Key="Color6">#767676</Color>
+        <Color x:Key="Color7">#e3e3e3</Color>
         <SolidColorBrush x:Key="Brush0" Color="{StaticResource Color0}"/>
         <SolidColorBrush x:Key="Brush1" Color="{StaticResource Color1}"/>
         <SolidColorBrush x:Key="Brush2" Color="{StaticResource Color2}"/>
         <SolidColorBrush x:Key="Brush3" Color="{StaticResource Color3}"/>
+        <SolidColorBrush x:Key="Brush4" Color="{StaticResource Color4}"/>
+        <SolidColorBrush x:Key="Brush5" Color="{StaticResource Color5}"/>
+        <SolidColorBrush x:Key="Brush6" Color="{StaticResource Color6}"/>
+        <SolidColorBrush x:Key="Brush7" Color="{StaticResource Color7}"/>
 
         <Style TargetType="{x:Type TextBlock}">
-            <Setter Property="FontFamily" Value="Cascadia Code"/>
+            <Setter Property="FontFamily" Value="{StaticResource FontFamily}"/>
+            <Setter Property="Foreground" Value="{StaticResource Brush7}"/>
         </Style>
         <Style TargetType="{x:Type Button}">
             <Setter Property="Template">
@@ -22,14 +32,21 @@
                         <Border
                             Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="3">
+                            <TextBlock
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Text="{TemplateBinding Content}"
+                                Foreground="{TemplateBinding Foreground}"
+                                FontSize="{TemplateBinding FontSize}"/>
                         </Border>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
-            <Setter Property="Background" Value="{StaticResource Brush2}"/>
+            <Setter Property="Background" Value="{StaticResource Brush0}"/>
             <Setter Property="BorderBrush" Value="{StaticResource Brush0}"/>
+            <Setter Property="Foreground" Value="{StaticResource Brush5}"/>
 
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
@@ -48,7 +65,7 @@
                             <Storyboard>
                                 <ColorAnimation
                                     Storyboard.TargetProperty="(Background).(SolidColorBrush.Color)"
-                                    To="{StaticResource Color2}"
+                                    To="{StaticResource Color0}"
                                     Duration="0:0:0.2" />
                             </Storyboard>
                         </BeginStoryboard>
@@ -56,9 +73,9 @@
                 </Trigger>
 
                 <Trigger Property="IsEnabled" Value="False">
-                    <Setter Property="Foreground" Value="DimGray"/>
-                    <Setter Property="BorderBrush" Value="#D0D4CA"/>
-                    <Setter Property="Background" Value="#F7FFE5"/>
+                    <Setter Property="Foreground" Value="{StaticResource Brush6}"/>
+                    <Setter Property="BorderBrush" Value="{StaticResource Brush4}"/>
+                    <Setter Property="Background" Value="{StaticResource Brush4}"/>
                 </Trigger>
             </Style.Triggers>
         </Style>

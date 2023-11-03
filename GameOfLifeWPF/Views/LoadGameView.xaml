@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:GameOfLifeWPF.Views"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="450">
-    <Grid Background="{StaticResource Brush3}">
+    <Grid Background="{StaticResource Brush2}">
         <Grid.Resources>
             <Style TargetType="Label">
                 <Setter Property="HorizontalAlignment" Value="Center"/>
@@ -41,8 +41,8 @@
                    TextWrapping="Wrap" 
                    x:Name="ChosenFileLabel" 
                    Text="No file chosen" 
-                   Grid.Column="1" Grid.Row="2" 
-                   Foreground="#FF292929"/>
+                   Grid.Column="1" Grid.Row="2"
+                   Margin="0, 0, 0, 5"/>
         <Button IsDefault="True" Content="Choose file" Grid.Column="1" Grid.Row="3" Click="ChooseFile_Click"/>
 
         <StackPanel Grid.Column="1" Grid.Row="5" Orientation="Horizontal" HorizontalAlignment="Center">

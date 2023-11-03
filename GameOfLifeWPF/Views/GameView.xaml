@@ -38,7 +38,7 @@
             <RowDefinition Height="0"/>
         </Grid.RowDefinitions>
 
-        <Grid Grid.Row="1" Background="{StaticResource  Brush1}">
+        <Grid Grid.Row="1" Background="{StaticResource  Brush3}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="10"/>
@@ -73,7 +73,7 @@
             Grid.Row="3"
             SizeChanged="GameCanvas_SizeChanged"
             MouseDown="GameCanvas_MouseDown"
-            Background="{StaticResource Brush3}">
+            Background="{StaticResource Brush2}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <Canvas
@@ -100,7 +100,7 @@
         <Grid 
             x:Name="ButtonsGrid"
             Grid.Column="1" Grid.Row="5"
-            Background="{StaticResource Brush1}">
+            Background="{StaticResource Brush3}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="0"/>
