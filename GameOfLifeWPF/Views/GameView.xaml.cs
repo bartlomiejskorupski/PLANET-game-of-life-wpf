@@ -7,6 +7,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -156,9 +157,9 @@ public partial class GameView : UserControl
         _resizeTimer.Start();
     }
 
-    private void NextButton_Click(object sender, RoutedEventArgs e)
+    private async void NextButton_Click(object sender, RoutedEventArgs e)
     {
-        Board.NextGeneration();
+        await Task.Run(Board.NextGeneration);
         UpdateTopPanel();
         UpdateCanvas();
     }
@@ -211,10 +212,10 @@ public partial class GameView : UserControl
         _autoTimer.Stop();
     }
 
-    private void AutoTimerTick(object? sender, EventArgs e)
+    private async void AutoTimerTick(object? sender, EventArgs e)
     {
         _autoTimer.Stop();
-        Board.NextGeneration();
+        await Task.Run(Board.NextGeneration);
         UpdateTopPanel();
         UpdateCanvas();
         _autoTimer.Start();
