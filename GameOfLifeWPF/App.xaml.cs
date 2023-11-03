@@ -1,32 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 
-namespace GameOfLifeWPF
+namespace GameOfLifeWPF;
+
+public partial class App : Application
 {
-    /// <summary>
-    /// Interaction logic for App.xaml
-    /// </summary>
-    public partial class App : Application
+    private static MainWindow _mainWindow;
+
+    protected override void OnStartup(StartupEventArgs e)
     {
-        private static MainWindow _mainWindow;
+        _mainWindow = new MainWindow();
+        _mainWindow.Show();
 
-        protected override void OnStartup(StartupEventArgs e)
-        {
-            _mainWindow = new MainWindow();
-            _mainWindow.Show();
+        base.OnStartup(e);
+    }
 
-            base.OnStartup(e);
-        }
-
-        public static void Navigate(UserControl navigateTo)
-        {
-            _mainWindow.MainContent.Content = navigateTo;
-        }
+    public static void Navigate(UserControl navigateTo)
+    {
+        _mainWindow.MainContent.Content = navigateTo;
     }
 }

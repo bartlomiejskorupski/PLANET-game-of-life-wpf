@@ -89,12 +89,10 @@
             </ItemsControl.ItemContainerStyle>
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Border>
-                        <Rectangle
+                    <Rectangle
                             Width="{Binding Width}"
                             Height="{Binding Height}"
                             Fill="{Binding Fill}"/>
-                    </Border>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
