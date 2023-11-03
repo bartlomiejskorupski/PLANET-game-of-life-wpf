@@ -202,14 +202,28 @@ public partial class GameView : UserControl
         App.Navigate(new TitleView());
     }
 
-    private void AutoToggleButton_Checked(object sender, RoutedEventArgs e)
+    private void AutoSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
     {
-        _autoTimer.Start();
-    }
+        if (_autoTimer == null) return;
 
-    private void AutoToggleButton_Unchecked(object sender, RoutedEventArgs e)
-    {
-        _autoTimer.Stop();
+        var slider = (Slider)sender;
+        int value = (int)e.NewValue;
+        int max = (int)slider.Maximum;
+
+        if (value == max)
+        {
+            _autoTimer.Stop();
+            return;
+        }
+
+        if (value <= 0) throw new InvalidOperationException();
+
+        _autoTimer.Interval = TimeSpan.FromMilliseconds(value);
+
+        if (!_autoTimer.IsEnabled)
+        {
+            _autoTimer.Start();
+        }
     }
 
     private async void AutoTimerTick(object? sender, EventArgs e)

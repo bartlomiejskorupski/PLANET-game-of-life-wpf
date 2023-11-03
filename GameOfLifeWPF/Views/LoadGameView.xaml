@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:GameOfLifeWPF.Views"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="450">
-    <Grid>
+    <Grid Background="{StaticResource Brush3}">
         <Grid.Resources>
             <Style TargetType="Label">
                 <Setter Property="HorizontalAlignment" Value="Center"/>

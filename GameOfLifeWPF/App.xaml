@@ -15,9 +15,6 @@
         <Style TargetType="{x:Type TextBlock}">
             <Setter Property="FontFamily" Value="Cascadia Code"/>
         </Style>
-        <Style TargetType="{x:Type Grid}">
-            <Setter Property="Background" Value="{StaticResource Brush3}"/>
-        </Style>
         <Style TargetType="{x:Type Button}">
             <Setter Property="Template">
                 <Setter.Value>
