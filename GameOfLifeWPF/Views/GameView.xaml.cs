@@ -19,11 +19,10 @@ namespace GameOfLifeWPF.Views;
 public partial class GameView : UserControl
 {
     public Board Board { get; set; }
-    private DispatcherTimer _autoTimer;
-    private DispatcherTimer _resizeTimer;
-
     public ObservableCollection<RectangleViewModel> Cells { get; set; }
 
+    private DispatcherTimer _autoTimer;
+    private DispatcherTimer _resizeTimer;
 
     public GameView(IBoardFactory boardFactory)
     {
@@ -33,12 +32,15 @@ public partial class GameView : UserControl
         Board = boardFactory.CreateBoard();
         DataContext = Board;
 
-        _autoTimer = new DispatcherTimer();
+        UpdateCanvas();
+
+        _autoTimer = new DispatcherTimer(DispatcherPriority.Render);
+        _autoTimer.Interval = TimeSpan.FromMilliseconds(200);
         _autoTimer.Tick += AutoTimerTick;
-        _autoTimer.Interval = new TimeSpan(0, 0, 0, 0, 200);
+
         _resizeTimer = new DispatcherTimer();
         _resizeTimer.Tick += ResizeTimerTick;
-        _resizeTimer.Interval = new TimeSpan(0, 0, 0, 0, 500);
+        _resizeTimer.Interval = TimeSpan.FromMilliseconds(500);
     }
 
     private void UpdateCanvas()
@@ -149,11 +151,6 @@ public partial class GameView : UserControl
         
     }
 
-    private void GameCanvas_Loaded(object sender, RoutedEventArgs e)
-    {
-        UpdateCanvas();
-    }
-
     private void GameCanvas_SizeChanged(object sender, SizeChangedEventArgs e)
     {
         _resizeTimer.Start();
@@ -216,9 +213,11 @@ public partial class GameView : UserControl
 
     private void AutoTimerTick(object? sender, EventArgs e)
     {
+        _autoTimer.Stop();
         Board.NextGeneration();
         UpdateTopPanel();
         UpdateCanvas();
+        _autoTimer.Start();
     }
 
     private void ResizeTimerTick(object? sender, EventArgs e)
