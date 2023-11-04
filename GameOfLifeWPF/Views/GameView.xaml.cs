@@ -33,8 +33,6 @@ public partial class GameView : UserControl
         Board = boardFactory.CreateBoard();
         DataContext = Board;
 
-        UpdateCanvas();
-
         _autoTimer = new DispatcherTimer(DispatcherPriority.Render);
         _autoTimer.Interval = TimeSpan.FromMilliseconds(200);
         _autoTimer.Tick += AutoTimerTick;
@@ -42,6 +40,11 @@ public partial class GameView : UserControl
         _resizeTimer = new DispatcherTimer();
         _resizeTimer.Tick += ResizeTimerTick;
         _resizeTimer.Interval = TimeSpan.FromMilliseconds(500);
+    }
+
+    public void GameCanvas_Loaded(object sender, RoutedEventArgs e)
+    {
+        UpdateCanvas();
     }
 
     private void UpdateCanvas()

@@ -73,6 +73,7 @@
             Grid.Row="1"
             SizeChanged="GameCanvas_SizeChanged"
             MouseDown="GameCanvas_MouseDown"
+            Loaded="GameCanvas_Loaded"
             Background="{StaticResource Brush2}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
