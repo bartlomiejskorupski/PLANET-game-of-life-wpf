@@ -21,7 +21,7 @@ public class RectangleViewModel
         Height = 0;
         Left = 0;
         Top = 0;
-        Fill = new SolidColorBrush(Colors.White);
+        Fill = new SolidColorBrush(Color.FromRgb(240, 240, 240));
         X = -1;
         Y = -1;
     }

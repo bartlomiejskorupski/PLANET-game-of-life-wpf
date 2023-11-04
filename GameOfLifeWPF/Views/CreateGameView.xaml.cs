@@ -19,15 +19,15 @@ public partial class CreateGameView : UserControl
         BoardPresetItems = new List<BoardPresetItem>()
         {
             new BoardPresetItem("Empty", typeof(EmptyBoardFactory)),
-            new BoardPresetItem("R-Pentomino", typeof(RPentominoBoardFactory), 3, 3, "DarkGreen"),
-            new BoardPresetItem("Acorn", typeof(AcornBoardFactory), 7, 3, "SaddleBrown"),
-            new BoardPresetItem("Glider", typeof(GliderBoardFactory), 3, 3, "MidnightBlue"),
-            new BoardPresetItem("Light-weight Spaceship", typeof(LWSSBoardFactory), 5, 4, "DarkGray"),
-            new BoardPresetItem("Middle-weight Spaceship", typeof(MWSSBoardFactory), 6, 5, "Gray"),
-            new BoardPresetItem("Heavy-weight Spaceship", typeof(HWSSBoardFactory), 7, 5, "DimGray"),
-            new BoardPresetItem("Pulsar", typeof(PulsarBoardFactory), 13, 13, "DarkMagenta"),
-            new BoardPresetItem("Glider Gun", typeof(GliderGunBoardFactory), 36, 9, "Maroon"),
-            new BoardPresetItem("Bi-Block Puffer", typeof(BiBlockPufferBoardFactory), 37, 29, "Black"),
+            new BoardPresetItem("R-Pentomino", typeof(RPentominoBoardFactory), 3, 3, "Lime"),
+            new BoardPresetItem("Acorn", typeof(AcornBoardFactory), 7, 3, "Gold"),
+            new BoardPresetItem("Glider", typeof(GliderBoardFactory), 3, 3, "SkyBlue"),
+            new BoardPresetItem("Light-weight Spaceship", typeof(LWSSBoardFactory), 5, 4, "#cccccc"),
+            new BoardPresetItem("Middle-weight Spaceship", typeof(MWSSBoardFactory), 6, 5, "#bbbbbb"),
+            new BoardPresetItem("Heavy-weight Spaceship", typeof(HWSSBoardFactory), 7, 5, "#aaaaaa"),
+            new BoardPresetItem("Pulsar", typeof(PulsarBoardFactory), 13, 13, "Magenta"),
+            new BoardPresetItem("Glider Gun", typeof(GliderGunBoardFactory), 36, 9, "OrangeRed"),
+            new BoardPresetItem("Bi-Block Puffer", typeof(BiBlockPufferBoardFactory), 37, 29, "LightCyan"),
         };
         MaxBoardSize = 999;
         DataContext = this;

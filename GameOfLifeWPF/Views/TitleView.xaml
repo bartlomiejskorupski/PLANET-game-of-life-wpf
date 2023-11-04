@@ -36,7 +36,7 @@
             <RowDefinition Height="30"/>
         </Grid.RowDefinitions>
 
-        <Label Content="Game Of Life" HorizontalAlignment="Center" FontWeight="Bold" FontSize="26" Grid.Row="1" Grid.Column="1"/>
+        <Label Content="Game Of Life" HorizontalAlignment="Center" FontWeight="Bold" FontSize="30" Grid.Row="1" Grid.Column="1"/>
         <Button Content="New Game" Grid.Column="1" Grid.Row="4" Click="NewGameButton_Click"/>
         <Button Content="Load Game" Grid.Column="1" Grid.Row="6" Click="LoadGameButton_Click"/>
         <Button Content="Exit" Grid.Column="1" Grid.Row="8" Click="ExitButton_Click"/>

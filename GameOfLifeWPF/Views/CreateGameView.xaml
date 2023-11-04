@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:GameOfLifeWPF.Views"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="450">
+             d:DesignHeight="600" d:DesignWidth="600">
     <Grid Background="{StaticResource Brush2}">
         <Grid.Resources>
             <Style TargetType="TextBox">
@@ -15,22 +15,24 @@
                 <Setter Property="HorizontalAlignment" Value="Left"/>
                 <Setter Property="FontSize" Value="18"/>
                 <Setter Property="FontFamily" Value="{StaticResource FontFamily}"/>
-                <Setter Property="Background" Value="{StaticResource Brush4}"/>
+                <Setter Property="Background" Value="{StaticResource Brush3}"/>
+                <Setter Property="Foreground" Value="{StaticResource Brush7}"/>
+                <Setter Property="BorderBrush" Value="{StaticResource Brush4}"/>
             </Style>
             <Style TargetType="Label">
                 <Setter Property="HorizontalAlignment" Value="Right"/>
                 <Setter Property="FontSize" Value="18"/>
             </Style>
             <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
-                <Setter Property="Width" Value="120"/>
-                <Setter Property="Height" Value="40"/>
+                <Setter Property="MinWidth" Value="120"/>
+                <Setter Property="Height" Value="50"/>
             </Style>
         </Grid.Resources>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="10"/>
             <ColumnDefinition Width="5*" MinWidth="270"/>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="5*" MinWidth="140"/>
+            <ColumnDefinition Width="5*" MinWidth="270"/>
             <ColumnDefinition Width="10"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
@@ -61,11 +63,23 @@
                 <RowDefinition Height="20"/>
                 <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
-            
+
             <Label Content="Width:" Grid.Column="0" Grid.Row="0"/>
-            <TextBox MaxLength="3" PreviewTextInput="NumberValidationTextBox" x:Name="WidthTB" Text="80" Grid.Column="2" Grid.Row="0" VerticalAlignment="Top"/>
+            <TextBox 
+                Grid.Column="2" Grid.Row="0"
+                x:Name="WidthTB" 
+                Text="80" 
+                MaxLength="3" 
+                PreviewTextInput="NumberValidationTextBox" 
+                VerticalAlignment="Top"/>
             <Label Content="Height:" Grid.Column="0" Grid.Row="2"/>
-            <TextBox MaxLength="3"  PreviewTextInput="NumberValidationTextBox" x:Name="HeightTB" Text="40" Grid.Column="2" Grid.Row="2" VerticalAlignment="Top"/>
+            <TextBox 
+                Grid.Column="2" Grid.Row="2"
+                x:Name="HeightTB" 
+                Text="40" 
+                MaxLength="3" 
+                PreviewTextInput="NumberValidationTextBox" 
+                VerticalAlignment="Top"/>
             <Button IsCancel="True" Content="Cancel" Click="CancelButton_Click" Grid.Column="0" Grid.Row="4"/>
             <Button IsDefault="True" Content="Create" Click="CreateButton_Click" Grid.Column="2" Grid.Row="4"/>
         </Grid>
@@ -90,12 +104,15 @@
                     SelectedIndex="0" 
                     ItemsSource="{Binding BoardPresetItems}"
                     HorizontalAlignment="Stretch"
-                    Background="{StaticResource Brush4}">
+                    Background="{StaticResource Brush3}"
+                    BorderBrush="{DynamicResource Brush4}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <TextBlock
                                 Text="{Binding ListString}"
-                                Foreground="{Binding ColorString}"/>
+                                Foreground="{Binding ColorString}"
+                                Margin="6, 3"
+                                FontSize="14"/>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>

@@ -20,7 +20,7 @@ public class BoardPresetItem
     }
     public string ColorString { get; set; }
     public Type BoardFactoryType{ get; set; }
-    public BoardPresetItem(string name, Type boardFactoryType, int width, int height, string color = "Black")
+    public BoardPresetItem(string name, Type boardFactoryType, int width, int height, string color = "e3e3e3")
     {
         Name = name;
         BoardFactoryType = boardFactoryType;
@@ -28,5 +28,5 @@ public class BoardPresetItem
         StructureHeight = height;
         ColorString = color;
     }
-    public BoardPresetItem(string name, Type boardFactoryType, string color = "Black") : this(name, boardFactoryType, 0, 0, color) { }
+    public BoardPresetItem(string name, Type boardFactoryType, string color = "#e3e3e3") : this(name, boardFactoryType, 0, 0, color) { }
 }

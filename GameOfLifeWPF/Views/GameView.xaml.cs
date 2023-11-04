@@ -59,7 +59,7 @@ public partial class GameView : UserControl
             Height = cellSize * currentState.Height,
             Left = -offsetLeft,
             Top = -offsetTop,
-            Fill = new SolidColorBrush(Colors.Gray)
+            Fill = new SolidColorBrush(Color.FromRgb(24, 24, 24))
         });
 
         foreach(var cell in currentState.Cells)
@@ -121,7 +121,7 @@ public partial class GameView : UserControl
         var cellX = (int)((clickPoint.X - wDiffHalf) / cellSize);
         var cellY = (int)((clickPoint.Y - hDiffHalf) / cellSize);
 
-        if (cellX < 0 || cellY < 0 || cellX > Board.Width || cellY > Board.Height)
+        if (cellX < 0 || cellY < 0 || cellX >= Board.Width || cellY >= Board.Height)
             return;
 
         var currentState = Board.CurrentState;

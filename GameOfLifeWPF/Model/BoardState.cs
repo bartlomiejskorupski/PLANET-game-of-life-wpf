@@ -32,7 +32,7 @@ public class BoardState
 
     public void ToggleCellState(int x, int y)
     {
-        if (x < 0 || x > Width || y < 0 || y > Height)
+        if (x < 0 || x >= Width || y < 0 || y >= Height)
             throw new ArgumentOutOfRangeException();
 
         if (IsCellAlive(x, y))
