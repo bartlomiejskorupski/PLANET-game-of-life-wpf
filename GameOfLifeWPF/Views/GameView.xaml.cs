@@ -215,6 +215,7 @@ public partial class GameView : UserControl
 
     private async void NextButton_Click(object sender, RoutedEventArgs e)
     {
+        ResetAutoSlider();
         await Task.Run(Board.NextGeneration);
         UpdateTopPanel();
         UpdateCanvas();
@@ -222,6 +223,7 @@ public partial class GameView : UserControl
 
     private void PreviousButton_Click(object sender, RoutedEventArgs e)
     {
+        ResetAutoSlider();
         Board.StepBack();
         UpdateTopPanel();
         UpdateCanvas();
@@ -237,6 +239,8 @@ public partial class GameView : UserControl
 
     private void ExitButton_Click(object sender, RoutedEventArgs e)
     {
+        ResetAutoSlider();
+
         var result = MessageBox.Show(
             "Are you sure you want to exit?\nUnsaved changes will be discarded.",
             "Exit", MessageBoxButton.YesNo, MessageBoxImage.Warning, MessageBoxResult.No
@@ -292,14 +296,22 @@ public partial class GameView : UserControl
             _autoTimer.Start();
     }
 
+    private void ResetAutoSlider()
+    {
+        AutoSlider.Value = AutoSlider.Maximum;
+    }
+
     private void ResizeTimerTick(object? sender, EventArgs e)
     {
         _resizeTimer.Stop();
+        CellsBefore = null;
         UpdateCanvas();
     }
 
     private async void SaveButton_Click(object sender, RoutedEventArgs e)
     {
+        ResetAutoSlider();
+
         var dialog = new SaveFileDialog();
         dialog.Filter = "Game of life save file (.gol)|*.gol";
         dialog.FileName = "GOL_" + DateTime.Now.ToString("yyyyMMdd_HHmmss") + ".gol";
@@ -322,6 +334,8 @@ public partial class GameView : UserControl
 
     private void ScreenshotButton_Click(object sender, RoutedEventArgs e)
     {
+        ResetAutoSlider();
+
         SaveFileDialog dialog = new SaveFileDialog();
         dialog.Filter = "JPEG image (.jpeg)|*.jpeg";
         dialog.FileName = "GOL_" + DateTime.Now.ToString("yyyyMMdd_HHmmss") + ".jpeg";
