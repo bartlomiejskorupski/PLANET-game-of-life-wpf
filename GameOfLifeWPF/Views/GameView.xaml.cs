@@ -3,7 +3,9 @@ using GameOfLifeWPF.Model.BoardFactory;
 using GameOfLifeWPF.Model.ScreenCapture;
 using GameOfLifeWPF.Model.Serialization;
 using Microsoft.Win32;
+using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
@@ -21,6 +23,7 @@ public partial class GameView : UserControl
 {
     public Board Board { get; set; }
     public ObservableCollection<RectangleViewModel> Cells { get; set; }
+    public HashSet<System.Drawing.Point>? CellsBefore { get; set; }
 
     private DispatcherTimer _autoTimer;
     private DispatcherTimer _resizeTimer;
@@ -49,23 +52,39 @@ public partial class GameView : UserControl
 
     private void UpdateCanvas()
     {
+        //GameCanvas.ItemsSource = null;
+        
+        if(CellsBefore == null)
+        {
+            InitCanvas();
+            CellsBefore = Board.CurrentState.Cells;
+        }
+        else
+        {
+            AddChangesToCanvas();
+        }
+        
+        if(GameCanvas.ItemsSource == null)
+            GameCanvas.ItemsSource = Cells;
+    }
+
+    private void InitCanvas()
+    {
         CalculateCanvasDimensions(out double cellSize, out double offsetLeft, out double offsetTop);
 
         Cells.Clear();
-        GameCanvas.ItemsSource = null;
-
         var currentState = Board.CurrentState;
-        // Canvas background
+        // Add background
         Cells.Add(new RectangleViewModel()
         {
             Width = cellSize * currentState.Width,
             Height = cellSize * currentState.Height,
             Left = -offsetLeft,
             Top = -offsetTop,
-            Fill = new SolidColorBrush(Color.FromRgb(24, 24, 24))
+            Fill = new SolidColorBrush(System.Windows.Media.Color.FromRgb(24, 24, 24))
         });
 
-        foreach(var cell in currentState.Cells)
+        foreach (var cell in currentState.Cells)
         {
             Cells.Add(new RectangleViewModel()
             {
@@ -77,8 +96,42 @@ public partial class GameView : UserControl
                 Y = cell.Y
             });
         }
+    }
 
-        GameCanvas.ItemsSource = Cells;
+    private void AddChangesToCanvas()
+    {
+        if (CellsBefore == null) throw new InvalidOperationException();
+
+        CalculateCanvasDimensions(out double cellSize, out double offsetLeft, out double offsetTop);
+
+        var currentCells = Board.CurrentState.Cells;
+
+        foreach (var cell in CellsBefore)
+        {
+            if (!currentCells.Contains(cell))
+            {
+                var rect = Cells.Where(rect => rect.X == cell.X && rect.Y == cell.Y).FirstOrDefault();
+                if(rect != null) Cells.Remove(rect);
+            }
+        }
+
+        foreach (var cell in currentCells)
+        {
+            if (!CellsBefore.Contains(cell))
+            {
+                Cells.Add(new RectangleViewModel()
+                {
+                    Width = cellSize,
+                    Height = cellSize,
+                    Left = cellSize * cell.X - offsetLeft,
+                    Top = cellSize * cell.Y - offsetTop,
+                    X = cell.X,
+                    Y = cell.Y
+                });
+            }
+        }
+
+        CellsBefore = currentCells;
     }
 
     private void CalculateCanvasDimensions(out double cellSize, out double offsetLeft, out double offsetTop)
@@ -235,7 +288,8 @@ public partial class GameView : UserControl
         await Task.Run(Board.NextGeneration);
         UpdateTopPanel();
         UpdateCanvas();
-        _autoTimer.Start();
+        if(AutoSlider.Value != AutoSlider.Maximum)
+            _autoTimer.Start();
     }
 
     private void ResizeTimerTick(object? sender, EventArgs e)
@@ -244,7 +298,7 @@ public partial class GameView : UserControl
         UpdateCanvas();
     }
 
-    private void SaveButton_Click(object sender, RoutedEventArgs e)
+    private async void SaveButton_Click(object sender, RoutedEventArgs e)
     {
         var dialog = new SaveFileDialog();
         dialog.Filter = "Game of life save file (.gol)|*.gol";
@@ -253,7 +307,17 @@ public partial class GameView : UserControl
         if (dialog.ShowDialog() == false)
             return;
 
-        BoardSerializer.Serialize(Board, dialog.FileName);
+        try
+        {
+            SaveButton.IsEnabled = false;
+            await Task.Run(() => BoardSerializer.Serialize(Board, dialog.FileName));
+            SaveButton.IsEnabled = true;
+            MessageBox.Show($"Game was saved successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.None);
+        }
+        catch(JsonSerializationException)
+        {
+            MessageBox.Show("Error saving game to a file.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
     }
 
     private void ScreenshotButton_Click(object sender, RoutedEventArgs e)
@@ -267,7 +331,14 @@ public partial class GameView : UserControl
 
         Screenshot.SaveUIElementToJpeg(GameGrid, dialog.FileName);
 
-        Process.Start("rundll32.exe", "shell32.dll,OpenAs_RunDLL " + dialog.FileName);
+        try
+        {
+            Process.Start("rundll32.exe", "shell32.dll,OpenAs_RunDLL " + dialog.FileName);
+        }
+        catch (Exception)
+        {
+            MessageBox.Show("Error saving a screenshot", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
     }
 
 }

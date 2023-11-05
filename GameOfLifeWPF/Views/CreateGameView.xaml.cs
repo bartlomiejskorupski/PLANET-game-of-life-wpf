@@ -26,7 +26,9 @@ public partial class CreateGameView : UserControl
             new BoardPresetItem("Middle-weight Spaceship", typeof(MWSSBoardFactory), 6, 5, "#bbbbbb"),
             new BoardPresetItem("Heavy-weight Spaceship", typeof(HWSSBoardFactory), 7, 5, "#aaaaaa"),
             new BoardPresetItem("Pulsar", typeof(PulsarBoardFactory), 13, 13, "Magenta"),
+            new BoardPresetItem("Spider", typeof(SpiderBoardFactory), 27, 8, "Blue"),
             new BoardPresetItem("Glider Gun", typeof(GliderGunBoardFactory), 36, 9, "OrangeRed"),
+            new BoardPresetItem("Max", typeof(MaxBoardFactory), 27, 27, "Gold"),
             new BoardPresetItem("Bi-Block Puffer", typeof(BiBlockPufferBoardFactory), 37, 29, "LightCyan"),
         };
         MaxBoardSize = 999;

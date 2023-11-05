@@ -122,7 +122,7 @@
             <Button Click="ExitButton_Click"  x:Name="ExitButton" Content="Exit" Grid.Column="0" Grid.Row="2"/>
             <Button x:Name="SaveButton"  Content="Save" Grid.Column="0" Click="SaveButton_Click" Margin="5,10,5,5"/>
 
-            <Button Content="Debug" Grid.Column="2" Grid.Row="2" Click="DebugButton_Click"/>
+            <Button Visibility="Hidden" Content="Debug" Grid.Column="2" Grid.Row="2" Click="DebugButton_Click"/>
             <Button Content="Screenshot" Grid.Column="2" Grid.Row="0" Click="ScreenshotButton_Click" Margin="5,10,5,5"/>
 
             <Button x:Name="PreviousButton" Content="&lt;" Grid.Column="6" Click="PreviousButton_Click" Margin="5,10,5,5"/>
